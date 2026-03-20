@@ -115,6 +115,18 @@ h1 {
 }
 .champ-alive { color: #4ecca3; }
 .champ-dead { color: #e74c3c; text-decoration: line-through; }
+.card-watch {
+  font-size: 0.78em;
+  color: #b8b8b8;
+  margin-bottom: 6px;
+  padding: 4px 8px;
+  background: #0f1a30;
+  border-radius: 4px;
+  border-left: 2px solid #f7c948;
+}
+.card-watch .watch-icon { margin-right: 3px; }
+.card-watch .watch-team { color: #f7c948; font-weight: 600; }
+.card-watch .watch-reason { color: #888; }
 .card-rounds {
   display: flex;
   gap: 2px;
@@ -321,6 +333,54 @@ function scorePicks(picks, results, eliminated) {
   };
 }
 
+function getTeamDepth(picks) {
+  var depth = {};
+  var r, i, rp;
+  var DEPTH_LABELS = {1:'R1 pick',2:'R32 pick',3:'Sweet 16 pick',4:'Elite 8 pick',5:'Final Four pick',6:'championship pick'};
+  for (r = 0; r < REGIONS.length; r++) {
+    rp = picks.regions[REGIONS[r]];
+    for (i = 0; i < rp.round1.length; i++) { if (!depth[rp.round1[i]]) depth[rp.round1[i]] = 1; }
+    for (i = 0; i < rp.round2.length; i++) { depth[rp.round2[i]] = 2; }
+    for (i = 0; i < rp.sweet16.length; i++) { depth[rp.sweet16[i]] = 3; }
+    depth[rp.elite8] = 4;
+  }
+  depth[picks.final_four.east_south_winner] = 5;
+  depth[picks.final_four.west_midwest_winner] = 5;
+  depth[picks.champion] = 6;
+  return depth;
+}
+
+function getWatchGame(picks, tournament, results) {
+  var depth = getTeamDepth(picks);
+  var DEPTH_LABELS = {1:'R1 pick',2:'to R32',3:'to Sweet 16',4:'to Elite 8',5:'to Final Four',6:'champ pick!'};
+  var bestDepth = 0;
+  var bestText = '';
+  var r, j, g, game, topTeam, botTeam, pickedTeam, pickedDepth, opponent;
+
+  for (r = 0; r < REGIONS.length; r++) {
+    var rr = results.results[REGIONS[r]];
+    var games = tournament.regions[REGIONS[r]].games;
+    for (j = 0; j < 8; j++) {
+      g = rr.round1[j];
+      if (g && g.status === 'final') continue;
+      if (!g || g.status === 'pending') {
+        game = games[j];
+        topTeam = game.top_team;
+        botTeam = game.bottom_team;
+        pickedTeam = picks.regions[REGIONS[r]].round1[j];
+        pickedDepth = depth[pickedTeam] || 0;
+        if (pickedDepth > bestDepth) {
+          bestDepth = pickedDepth;
+          opponent = (pickedTeam === topTeam) ? botTeam : topTeam;
+          bestText = '<span class="watch-team">' + pickedTeam + '</span> vs ' + opponent + ' <span class="watch-reason">- ' + DEPTH_LABELS[pickedDepth] + '</span>';
+        }
+      }
+    }
+  }
+  if (!bestText) return '';
+  return '<span class="watch-icon">\uD83D\uDCFA</span> ' + bestText;
+}
+
 function render(tournament, results, allPicks) {
   var eliminated = getEliminated(results);
   var standings = [];
@@ -336,7 +396,8 @@ function render(tournament, results, allPicks) {
       score: s.score,
       maxPossible: s.maxPossible,
       roundCorrect: s.roundCorrect,
-      champEliminated: s.champEliminated
+      champEliminated: s.champEliminated,
+      watchGame: getWatchGame(p, tournament, results)
     });
   }
 
@@ -375,6 +436,10 @@ function render(tournament, results, allPicks) {
     var champIcon = st.champEliminated ? '\u274C ' : '\uD83C\uDFC6 ';
     html += '<span class="card-champ ' + champClass + '">' + champIcon + st.champion + '</span>';
     html += '</div>';
+
+    if (st.watchGame) {
+      html += '<div class="card-watch">' + st.watchGame + '</div>';
+    }
 
     html += '<div class="card-rounds">';
     for (var r = 0; r < 6; r++) {
