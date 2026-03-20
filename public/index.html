@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NCAA Bracket Challenge 2026</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #1a1a2e;
+  color: #e0e0e0;
+  padding: 20px;
+  min-height: 100vh;
+}
+h1 {
+  text-align: center;
+  font-size: 2em;
+  margin-bottom: 4px;
+  background: linear-gradient(90deg, #ff6b35, #f7c948);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.subtitle {
+  text-align: center;
+  color: #888;
+  margin-bottom: 20px;
+  font-size: 0.9em;
+}
+.updated {
+  text-align: center;
+  color: #666;
+  font-size: 0.8em;
+  margin-bottom: 20px;
+}
+table {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto 30px;
+  border-collapse: collapse;
+  background: #16213e;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+th {
+  background: #0f3460;
+  padding: 12px 8px;
+  text-align: center;
+  font-size: 0.85em;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #f7c948;
+  border-bottom: 2px solid #f7c948;
+}
+th:first-child, td:first-child { text-align: center; width: 50px; }
+th:nth-child(2), td:nth-child(2) { text-align: left; padding-left: 16px; }
+td {
+  padding: 10px 8px;
+  text-align: center;
+  border-bottom: 1px solid #1a1a3e;
+  font-size: 0.9em;
+}
+tr:hover { background: #1a2a4e; }
+tr.rank1 { background: #1a2a3e; }
+tr.rank1 td { font-weight: bold; }
+.score { font-size: 1.3em; font-weight: bold; color: #4ecca3; }
+.max-possible { color: #888; font-size: 0.85em; }
+.champ { font-weight: bold; }
+.champ-alive { color: #4ecca3; }
+.champ-dead { color: #e74c3c; text-decoration: line-through; }
+.round-correct { color: #4ecca3; }
+.round-zero { color: #555; }
+.name-cell { font-weight: 600; }
+.rank-cell { font-size: 1.1em; font-weight: bold; color: #f7c948; }
+.legend {
+  max-width: 1100px;
+  margin: 0 auto 20px;
+  padding: 12px 16px;
+  background: #16213e;
+  border-radius: 8px;
+  font-size: 0.8em;
+  color: #888;
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.legend span { display: flex; align-items: center; gap: 4px; }
+.dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+.dot-green { background: #4ecca3; }
+.dot-red { background: #e74c3c; }
+.dot-gray { background: #555; }
+#output { max-width: 1100px; margin: 0 auto; }
+.error { color: #e74c3c; text-align: center; padding: 40px; font-size: 1.2em; }
+.scoring-info {
+  max-width: 1100px;
+  margin: 0 auto 20px;
+  padding: 12px 16px;
+  background: #16213e;
+  border-radius: 8px;
+  font-size: 0.8em;
+  color: #888;
+  text-align: center;
+}
+@media (max-width: 768px) {
+  body { padding: 10px; }
+  th, td { padding: 6px 4px; font-size: 0.75em; }
+  h1 { font-size: 1.4em; }
+  .score { font-size: 1.1em; }
+}
+</style>
+</head>
+<body>
+<h1>NCAA Bracket Challenge 2026</h1>
+<div class="subtitle">March Madness Standings</div>
+<div id="output"><div style="text-align:center;padding:40px;color:#888;">Loading...</div></div>
+<script>
+var SCORING = [1, 2, 3, 5, 8, 13];
+var REGIONS = ['east', 'south', 'west', 'midwest'];
+var ROUND_KEYS = ['round1', 'round2', 'sweet16', 'elite8'];
+var ROUND_SIZES = [8, 4, 2, 1];
+var PICK_FILES = [
+  'brady', 'steve', 'gracie', 'kristy', 'kylan', 'larry',
+  'laura', 'lisa', 'molly', 'peggy', 'sammy', 'shawn'
+];
+
+function getEliminated(results) {
+  var elim = {};
+  var i, j, g, rr;
+  for (i = 0; i < REGIONS.length; i++) {
+    rr = results.results[REGIONS[i]];
+    for (j = 0; j < 8; j++) {
+      g = rr.round1[j];
+      if (g && g.status === 'final' && g.loser) elim[g.loser] = true;
+    }
+    for (j = 0; j < 4; j++) {
+      g = rr.round2[j];
+      if (g && g.status === 'final' && g.loser) elim[g.loser] = true;
+    }
+    for (j = 0; j < 2; j++) {
+      g = rr.sweet16[j];
+      if (g && g.status === 'final' && g.loser) elim[g.loser] = true;
+    }
+    g = rr.elite8;
+    if (g && g.status === 'final' && g.loser) elim[g.loser] = true;
+  }
+  var ff = results.final_four;
+  if (ff.semifinal1 && ff.semifinal1.status === 'final' && ff.semifinal1.loser) elim[ff.semifinal1.loser] = true;
+  if (ff.semifinal2 && ff.semifinal2.status === 'final' && ff.semifinal2.loser) elim[ff.semifinal2.loser] = true;
+  if (ff.championship && ff.championship.status === 'final' && ff.championship.loser) elim[ff.championship.loser] = true;
+  return elim;
+}
+
+function scorePicks(picks, results, eliminated) {
+  var score = 0;
+  var maxPossible = 0;
+  var roundCorrect = [0, 0, 0, 0, 0, 0];
+  var i, j, k, rr, rp, g, pick, roundIdx;
+
+  for (i = 0; i < REGIONS.length; i++) {
+    rr = results.results[REGIONS[i]];
+    rp = picks.regions[REGIONS[i]];
+
+    for (k = 0; k < ROUND_KEYS.length; k++) {
+      roundIdx = k;
+      var pts = SCORING[k];
+      if (k < 3) {
+        var arr = rr[ROUND_KEYS[k]];
+        var parr = rp[ROUND_KEYS[k]];
+        for (j = 0; j < ROUND_SIZES[k]; j++) {
+          g = arr[j];
+          pick = parr[j];
+          if (g && g.status === 'final') {
+            if (g.winner === pick) {
+              score += pts;
+              maxPossible += pts;
+              roundCorrect[roundIdx]++;
+            }
+          } else {
+            if (!eliminated[pick]) {
+              maxPossible += pts;
+            }
+          }
+        }
+      } else {
+        g = rr.elite8;
+        pick = rp.elite8;
+        if (g && g.status === 'final') {
+          if (g.winner === pick) {
+            score += pts;
+            maxPossible += pts;
+            roundCorrect[roundIdx]++;
+          }
+        } else {
+          if (!eliminated[pick]) {
+            maxPossible += pts;
+          }
+        }
+      }
+    }
+  }
+
+  var ff = results.final_four;
+  var pfour = picks.final_four;
+
+  var semi1pick = pfour.east_south_winner;
+  if (ff.semifinal1 && ff.semifinal1.status === 'final') {
+    if (ff.semifinal1.winner === semi1pick) {
+      score += SCORING[4];
+      maxPossible += SCORING[4];
+      roundCorrect[4]++;
+    }
+  } else {
+    if (!eliminated[semi1pick]) maxPossible += SCORING[4];
+  }
+
+  var semi2pick = pfour.west_midwest_winner;
+  if (ff.semifinal2 && ff.semifinal2.status === 'final') {
+    if (ff.semifinal2.winner === semi2pick) {
+      score += SCORING[4];
+      maxPossible += SCORING[4];
+      roundCorrect[4]++;
+    }
+  } else {
+    if (!eliminated[semi2pick]) maxPossible += SCORING[4];
+  }
+
+  var champPick = picks.champion;
+  if (ff.championship && ff.championship.status === 'final') {
+    if (ff.championship.winner === champPick) {
+      score += SCORING[5];
+      maxPossible += SCORING[5];
+      roundCorrect[5]++;
+    }
+  } else {
+    if (!eliminated[champPick]) maxPossible += SCORING[5];
+  }
+
+  return {
+    score: score,
+    maxPossible: maxPossible,
+    roundCorrect: roundCorrect,
+    champEliminated: !!eliminated[picks.champion]
+  };
+}
+
+function render(tournament, results, allPicks) {
+  var eliminated = getEliminated(results);
+  var standings = [];
+  var i;
+
+  for (i = 0; i < allPicks.length; i++) {
+    var p = allPicks[i];
+    var s = scorePicks(p, results, eliminated);
+    standings.push({
+      name: p.participant,
+      champion: p.champion,
+      notes: p.notes || '',
+      score: s.score,
+      maxPossible: s.maxPossible,
+      roundCorrect: s.roundCorrect,
+      champEliminated: s.champEliminated
+    });
+  }
+
+  standings.sort(function(a, b) {
+    if (b.score !== a.score) return b.score - a.score;
+    return b.maxPossible - a.maxPossible;
+  });
+
+  var html = '';
+
+  html += '<div class="scoring-info">';
+  html += 'Scoring: R64 = 1pt | R32 = 2pts | Sweet 16 = 3pts | Elite 8 = 5pts | Final Four = 8pts | Championship = 13pts';
+  html += '</div>';
+
+  html += '<div class="legend">';
+  html += '<span><span class="dot dot-green"></span> Champion alive</span>';
+  html += '<span><span class="dot dot-red"></span> Champion eliminated</span>';
+  html += '</div>';
+
+  html += '<table>';
+  html += '<tr>';
+  html += '<th>Rank</th>';
+  html += '<th>Name</th>';
+  html += '<th>Score</th>';
+  html += '<th>Max</th>';
+  html += '<th>Champion</th>';
+  html += '<th>R64</th>';
+  html += '<th>R32</th>';
+  html += '<th>S16</th>';
+  html += '<th>E8</th>';
+  html += '<th>FF</th>';
+  html += '<th>NCG</th>';
+  html += '</tr>';
+
+  for (i = 0; i < standings.length; i++) {
+    var st = standings[i];
+    var rankClass = i === 0 ? ' class="rank1"' : '';
+    html += '<tr' + rankClass + '>';
+    html += '<td class="rank-cell">' + (i + 1) + '</td>';
+    html += '<td class="name-cell">' + st.name + '</td>';
+    html += '<td class="score">' + st.score + '</td>';
+    html += '<td class="max-possible">' + st.maxPossible + '</td>';
+
+    var champClass = st.champEliminated ? 'champ-dead' : 'champ-alive';
+    var champDisplay = st.champion;
+    if (st.champEliminated) {
+      champDisplay = '\u274C ' + st.champion;
+    }
+    html += '<td class="champ ' + champClass + '">' + champDisplay + '</td>';
+
+    for (var r = 0; r < 6; r++) {
+      var val = st.roundCorrect[r];
+      var cls = val > 0 ? 'round-correct' : 'round-zero';
+      html += '<td class="' + cls + '">' + val + '</td>';
+    }
+
+    html += '</tr>';
+  }
+
+  html += '</table>';
+
+  html += '<div class="updated">Last updated: ' + results.last_updated + ' | Source: ' + results.source + '</div>';
+
+  document.getElementById('output').innerHTML = html;
+}
+
+function run() {
+  var tournamentData, resultsData;
+  var pickPromises = [];
+  var allPicks = [];
+  var i;
+
+  Promise.all([
+    fetch('data/tournament.json').then(function(r) { return r.json(); }),
+    fetch('data/results.json').then(function(r) { return r.json(); })
+  ]).then(function(baseData) {
+    tournamentData = baseData[0];
+    resultsData = baseData[1];
+
+    var fetches = [];
+    for (i = 0; i < PICK_FILES.length; i++) {
+      fetches.push(
+        fetch('data/picks/' + PICK_FILES[i] + '.json').then(function(r) { return r.json(); })
+      );
+    }
+    return Promise.all(fetches);
+  }).then(function(picks) {
+    allPicks = picks;
+    render(tournamentData, resultsData, allPicks);
+  }).catch(function(err) {
+    document.getElementById('output').innerHTML = '<div class="error">Error loading data: ' + err.message + '</div>';
+  });
+}
+
+run();
+</script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+{
+  "participant": "Lisa",
+  "source_file": "lisa.pdf",
+  "confidence": "medium",
+  "notes": "Ohio State's revenge tour through the East, but Michigan wins it all.",
+  "regions": {
+    "east": {
+      "round1": ["Duke", "Ohio St.", "St. John's", "Kansas", "SFLA", "MICHST", "UCF", "UConn"],
+      "round2": ["Ohio St.", "St. John's", "MICHST", "UConn"],
+      "sweet16": ["Ohio St.", "UConn"],
+      "elite8": "UConn"
+    },
+    "south": {
+      "round1": ["Florida", "Clemson", "McNeese", "Nebraska", "VCU", "Illinois", "Texas A&M", "Houston"],
+      "round2": ["Florida", "McNeese", "Illinois", "Houston"],
+      "sweet16": ["Florida", "Houston"],
+      "elite8": "Florida"
+    },
+    "west": {
+      "round1": ["Arizona", "Utah St.", "Wisconsin", "Arkansas", "Texas", "Gonzaga", "Miami", "Purdue"],
+      "round2": ["Utah St.", "Wisconsin", "Gonzaga", "Purdue"],
+      "sweet16": ["Wisconsin", "Purdue"],
+      "elite8": "Purdue"
+    },
+    "midwest": {
+      "round1": ["Michigan", "Saint Louis", "Akron", "Alabama", "MIAOH", "Virginia", "Santa Clara", "Iowa St."],
+      "round2": ["Michigan", "Alabama", "MIAOH", "Iowa St."],
+      "sweet16": ["Michigan", "Iowa St."],
+      "elite8": "Michigan"
+    }
+  },
+  "final_four": {
+    "east_south_winner": "Florida",
+    "west_midwest_winner": "Michigan"
+  },
+  "champion": "Michigan"
+}

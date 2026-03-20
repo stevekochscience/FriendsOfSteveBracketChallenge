@@ -1,0 +1,37 @@
+{
+  "participant": "Gracie",
+  "source_file": "Gracie.pdf",
+  "confidence": "medium",
+  "notes": "Chaos bracket - Villanova over Arizona, Tenn. State upsetting Iowa St., Michigan takes it all.",
+  "regions": {
+    "east": {
+      "round1": ["Duke", "TCU", "St. John's", "Kansas", "Louisville", "MICHST", "UCLA", "UConn"],
+      "round2": ["Duke", "Kansas", "Louisville", "UConn"],
+      "sweet16": ["Duke", "UConn"],
+      "elite8": "Duke"
+    },
+    "south": {
+      "round1": ["Florida", "Iowa", "Vanderbilt", "Nebraska", "VCU", "Illinois", "Texas A&M", "Houston"],
+      "round2": ["Florida", "Vanderbilt", "Illinois", "Houston"],
+      "sweet16": ["Vanderbilt", "Houston"],
+      "elite8": "Vanderbilt"
+    },
+    "west": {
+      "round1": ["Arizona", "Villanova", "Wisconsin", "Arkansas", "Texas", "Gonzaga", "Miami", "Purdue"],
+      "round2": ["Villanova", "Wisconsin", "Gonzaga", "Miami"],
+      "sweet16": ["Villanova", "Gonzaga"],
+      "elite8": "Gonzaga"
+    },
+    "midwest": {
+      "round1": ["Michigan", "Georgia", "Texas Tech", "Alabama", "Tennessee", "Virginia", "Kentucky", "Tenn. State"],
+      "round2": ["Michigan", "Alabama", "Tennessee", "Tenn. State"],
+      "sweet16": ["Michigan", "Tennessee"],
+      "elite8": "Michigan"
+    }
+  },
+  "final_four": {
+    "east_south_winner": "Vanderbilt",
+    "west_midwest_winner": "Michigan"
+  },
+  "champion": "Michigan"
+}

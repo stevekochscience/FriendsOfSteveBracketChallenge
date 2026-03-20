@@ -1,0 +1,37 @@
+{
+  "participant": "Laura",
+  "source_file": "laura.pdf",
+  "confidence": "medium",
+  "notes": "PVAM shocks the world in round 1, but Wisconsin goes all the way.",
+  "regions": {
+    "east": {
+      "round1": ["Duke", "TCU", "St. John's", "Kansas", "Louisville", "MICHST", "UCLA", "UConn"],
+      "round2": ["Duke", "Kansas", "MICHST", "UConn"],
+      "sweet16": ["Duke", "MICHST"],
+      "elite8": "Duke"
+    },
+    "south": {
+      "round1": ["PVAM", "Clemson", "Vanderbilt", "Nebraska", "N. Carolina", "Illinois", "Texas A&M", "Houston"],
+      "round2": ["Clemson", "Vanderbilt", "N. Carolina", "Houston"],
+      "sweet16": ["Vanderbilt", "N. Carolina"],
+      "elite8": "Vanderbilt"
+    },
+    "west": {
+      "round1": ["Arizona", "Villanova", "Wisconsin", "Arkansas", "BYU", "Gonzaga", "Miami", "Purdue"],
+      "round2": ["Arizona", "Wisconsin", "BYU", "Purdue"],
+      "sweet16": ["Wisconsin", "Purdue"],
+      "elite8": "Wisconsin"
+    },
+    "midwest": {
+      "round1": ["Michigan", "Georgia", "Texas Tech", "Alabama", "MIAOH", "Virginia", "Kentucky", "Iowa St."],
+      "round2": ["Michigan", "Alabama", "Virginia", "Iowa St."],
+      "sweet16": ["Michigan", "Iowa St."],
+      "elite8": "Michigan"
+    }
+  },
+  "final_four": {
+    "east_south_winner": "Duke",
+    "west_midwest_winner": "Wisconsin"
+  },
+  "champion": "Wisconsin"
+}

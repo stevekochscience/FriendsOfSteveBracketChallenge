@@ -1,0 +1,37 @@
+{
+  "participant": "Shawn",
+  "source_file": "shawn.pdf",
+  "confidence": "medium",
+  "notes": "Ultimate chaos bracket - LIU and KENSAW in round 1, Florida wins it all.",
+  "regions": {
+    "east": {
+      "round1": ["Duke", "Ohio St.", "St. John's", "Kansas", "Louisville", "MICHST", "UCLA", "UConn"],
+      "round2": ["Ohio St.", "St. John's", "MICHST", "UCLA"],
+      "sweet16": ["St. John's", "MICHST"],
+      "elite8": "MICHST"
+    },
+    "south": {
+      "round1": ["Florida", "Clemson", "Vanderbilt", "Nebraska", "VCU", "Penn", "Texas A&M", "Houston"],
+      "round2": ["Florida", "Vanderbilt", "VCU", "Houston"],
+      "sweet16": ["Florida", "Houston"],
+      "elite8": "Florida"
+    },
+    "west": {
+      "round1": ["LIU", "Villanova", "High Point", "Arkansas", "BYU", "KENSAW", "Missouri", "Purdue"],
+      "round2": ["LIU", "High Point", "BYU", "Purdue"],
+      "sweet16": ["High Point", "Purdue"],
+      "elite8": "Purdue"
+    },
+    "midwest": {
+      "round1": ["Michigan", "Georgia", "Akron", "Hofstra", "Tennessee", "Virginia", "Santa Clara", "Iowa St."],
+      "round2": ["Michigan", "Akron", "Virginia", "Iowa St."],
+      "sweet16": ["Michigan", "Iowa St."],
+      "elite8": "Michigan"
+    }
+  },
+  "final_four": {
+    "east_south_winner": "Florida",
+    "west_midwest_winner": "Purdue"
+  },
+  "champion": "Florida"
+}

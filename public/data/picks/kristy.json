@@ -1,0 +1,37 @@
+{
+  "participant": "Kristy",
+  "source_file": "kristy.pdf",
+  "confidence": "medium",
+  "notes": "Wolverines over Blue Devils in a classic championship matchup.",
+  "regions": {
+    "east": {
+      "round1": ["Duke", "TCU", "St. John's", "Kansas", "Louisville", "MICHST", "UCLA", "UConn"],
+      "round2": ["Duke", "Kansas", "MICHST", "UConn"],
+      "sweet16": ["Duke", "MICHST"],
+      "elite8": "Duke"
+    },
+    "south": {
+      "round1": ["Florida", "Iowa", "Vanderbilt", "Nebraska", "VCU", "Illinois", "Texas A&M", "Houston"],
+      "round2": ["Florida", "Vanderbilt", "Illinois", "Houston"],
+      "sweet16": ["Florida", "Illinois"],
+      "elite8": "Florida"
+    },
+    "west": {
+      "round1": ["Arizona", "Utah St.", "Wisconsin", "Arkansas", "Texas", "Gonzaga", "Missouri", "Purdue"],
+      "round2": ["Arizona", "Wisconsin", "Gonzaga", "Purdue"],
+      "sweet16": ["Arizona", "Purdue"],
+      "elite8": "Arizona"
+    },
+    "midwest": {
+      "round1": ["Michigan", "Georgia", "Texas Tech", "Alabama", "Tennessee", "Virginia", "Kentucky", "Iowa St."],
+      "round2": ["Michigan", "Texas Tech", "Tennessee", "Iowa St."],
+      "sweet16": ["Michigan", "Iowa St."],
+      "elite8": "Michigan"
+    }
+  },
+  "final_four": {
+    "east_south_winner": "Duke",
+    "west_midwest_winner": "Michigan"
+  },
+  "champion": "Michigan"
+}

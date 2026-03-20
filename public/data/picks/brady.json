@@ -1,0 +1,37 @@
+{
+  "participant": "Brady",
+  "source_file": "brady.pdf",
+  "confidence": "medium",
+  "notes": "Betting on Blue Devils dominance with Duke going all the way.",
+  "regions": {
+    "east": {
+      "round1": ["Duke", "TCU", "St. John's", "Kansas", "SFLA", "MICHST", "UCLA", "UConn"],
+      "round2": ["Duke", "St. John's", "MICHST", "UConn"],
+      "sweet16": ["Duke", "MICHST"],
+      "elite8": "Duke"
+    },
+    "south": {
+      "round1": ["Florida", "Iowa", "Vanderbilt", "Nebraska", "VCU", "Illinois", "Texas A&M", "Houston"],
+      "round2": ["Florida", "Vanderbilt", "Illinois", "Houston"],
+      "sweet16": ["Vanderbilt", "Houston"],
+      "elite8": "Houston"
+    },
+    "west": {
+      "round1": ["Arizona", "Utah St.", "High Point", "Arkansas", "Texas", "Gonzaga", "Miami", "Purdue"],
+      "round2": ["Arizona", "Arkansas", "Gonzaga", "Purdue"],
+      "sweet16": ["Arizona", "Gonzaga"],
+      "elite8": "Arizona"
+    },
+    "midwest": {
+      "round1": ["Michigan", "Saint Louis", "Akron", "Alabama", "Tennessee", "Virginia", "Kentucky", "Iowa St."],
+      "round2": ["Michigan", "Alabama", "Tennessee", "Iowa St."],
+      "sweet16": ["Michigan", "Iowa St."],
+      "elite8": "Michigan"
+    }
+  },
+  "final_four": {
+    "east_south_winner": "Duke",
+    "west_midwest_winner": "Michigan"
+  },
+  "champion": "Duke"
+}

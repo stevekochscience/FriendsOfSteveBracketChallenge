@@ -1,0 +1,72 @@
+{
+  "last_updated": "2026-03-19T23:00:00",
+  "source": "ESPN Scoreboard",
+  "scoring": [1, 2, 3, 5, 8, 13],
+  "results": {
+    "east": {
+      "round1": [
+        { "winner": "Duke", "loser": "Siena", "score": "71-65", "status": "final" },
+        { "winner": "TCU", "loser": "Ohio St.", "score": "66-64", "status": "final" },
+        { "winner": null, "loser": null, "score": null, "status": "pending" },
+        { "winner": null, "loser": null, "score": null, "status": "pending" },
+        { "winner": "Louisville", "loser": "SFLA", "score": "83-79", "status": "final" },
+        { "winner": "MICHST", "loser": "NDAKST", "score": "92-67", "status": "final" },
+        { "winner": null, "loser": null, "score": null, "status": "pending" },
+        { "winner": null, "loser": null, "score": null, "status": "pending" }
+      ],
+      "round2": [null, null, null, null],
+      "sweet16": [null, null],
+      "elite8": null
+    },
+    "south": {
+      "round1": [
+        { "winner": null, "loser": null, "score": null, "status": "pending" },
+        { "winner": null, "loser": null, "score": null, "status": "pending" },
+        { "winner": "Vanderbilt", "loser": "McNeese", "score": "78-68", "status": "final" },
+        { "winner": "Nebraska", "loser": "Troy", "score": "76-47", "status": "final" },
+        { "winner": "VCU", "loser": "N. Carolina", "score": "82-78", "status": "final" },
+        { "winner": "Illinois", "loser": "Penn", "score": "105-70", "status": "final" },
+        { "winner": "Texas A&M", "loser": "MARYCA", "score": "63-50", "status": "final" },
+        { "winner": "Houston", "loser": "Idaho", "score": "65-38", "status": "final" }
+      ],
+      "round2": [null, null, null, null],
+      "sweet16": [null, null],
+      "elite8": null
+    },
+    "west": {
+      "round1": [
+        { "winner": null, "loser": null, "score": null, "status": "pending" },
+        { "winner": null, "loser": null, "score": null, "status": "pending" },
+        { "winner": "High Point", "loser": "Wisconsin", "score": "83-82", "status": "final" },
+        { "winner": "Arkansas", "loser": "Hawaii", "score": "97-78", "status": "final" },
+        { "winner": "Texas", "loser": "BYU", "score": "79-71", "status": "final" },
+        { "winner": "Gonzaga", "loser": "KENSAW", "score": "48-42", "status": "final" },
+        { "winner": null, "loser": null, "score": null, "status": "pending" },
+        { "winner": null, "loser": null, "score": null, "status": "pending" }
+      ],
+      "round2": [null, null, null, null],
+      "sweet16": [null, null],
+      "elite8": null
+    },
+    "midwest": {
+      "round1": [
+        { "winner": "Michigan", "loser": "Howard", "score": "101-80", "status": "final" },
+        { "winner": "Saint Louis", "loser": "Georgia", "score": "93-57", "status": "final" },
+        { "winner": null, "loser": null, "score": null, "status": "pending" },
+        { "winner": null, "loser": null, "score": null, "status": "pending" },
+        { "winner": null, "loser": null, "score": null, "status": "pending" },
+        { "winner": null, "loser": null, "score": null, "status": "pending" },
+        { "winner": null, "loser": null, "score": null, "status": "pending" },
+        { "winner": null, "loser": null, "score": null, "status": "pending" }
+      ],
+      "round2": [null, null, null, null],
+      "sweet16": [null, null],
+      "elite8": null
+    }
+  },
+  "final_four": {
+    "semifinal1": null,
+    "semifinal2": null,
+    "championship": null
+  }
+}

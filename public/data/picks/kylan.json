@@ -1,0 +1,37 @@
+{
+  "participant": "Kylan",
+  "source_file": "kylan.pdf",
+  "confidence": "medium",
+  "notes": "Michigan State runs the East, but Arizona claims the crown.",
+  "regions": {
+    "east": {
+      "round1": ["Duke", "TCU", "St. John's", "Kansas", "Louisville", "MICHST", "UCLA", "UConn"],
+      "round2": ["Duke", "St. John's", "MICHST", "UCLA"],
+      "sweet16": ["St. John's", "MICHST"],
+      "elite8": "MICHST"
+    },
+    "south": {
+      "round1": ["Florida", "Clemson", "Vanderbilt", "Nebraska", "N. Carolina", "Illinois", "Texas A&M", "Houston"],
+      "round2": ["Florida", "Nebraska", "N. Carolina", "Houston"],
+      "sweet16": ["Nebraska", "Houston"],
+      "elite8": "Houston"
+    },
+    "west": {
+      "round1": ["Arizona", "Villanova", "Wisconsin", "Arkansas", "Texas", "Gonzaga", "Miami", "Purdue"],
+      "round2": ["Arizona", "Wisconsin", "Gonzaga", "Miami"],
+      "sweet16": ["Arizona", "Miami"],
+      "elite8": "Arizona"
+    },
+    "midwest": {
+      "round1": ["Michigan", "Georgia", "Texas Tech", "Alabama", "MIAOH", "Virginia", "Kentucky", "Iowa St."],
+      "round2": ["Michigan", "Alabama", "MIAOH", "Iowa St."],
+      "sweet16": ["Michigan", "Iowa St."],
+      "elite8": "Michigan"
+    }
+  },
+  "final_four": {
+    "east_south_winner": "Houston",
+    "west_midwest_winner": "Arizona"
+  },
+  "champion": "Arizona"
+}

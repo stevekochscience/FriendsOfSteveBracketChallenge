@@ -1,0 +1,13 @@
+image: artifactory.epic.com/docker/alpine
+
+pages:
+  stage: deploy
+  script:
+    - echo "Deploying static files"
+  artifacts:
+    paths:
+      - public
+  rules:
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+  tags:
+    - k8s

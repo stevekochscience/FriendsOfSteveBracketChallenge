@@ -1,0 +1,37 @@
+{
+  "participant": "Molly",
+  "source_file": "molly.pdf",
+  "confidence": "medium",
+  "notes": "Iowa State upsets Michigan in Midwest, but Arizona still claims the title.",
+  "regions": {
+    "east": {
+      "round1": ["Duke", "TCU", "St. John's", "Kansas", "Louisville", "MICHST", "UCF", "UConn"],
+      "round2": ["Duke", "St. John's", "MICHST", "UConn"],
+      "sweet16": ["Duke", "UConn"],
+      "elite8": "Duke"
+    },
+    "south": {
+      "round1": ["Florida", "Iowa", "Vanderbilt", "Nebraska", "N. Carolina", "Illinois", "Texas A&M", "Houston"],
+      "round2": ["Florida", "Vanderbilt", "N. Carolina", "Houston"],
+      "sweet16": ["Florida", "Houston"],
+      "elite8": "Houston"
+    },
+    "west": {
+      "round1": ["Arizona", "Villanova", "Wisconsin", "Arkansas", "Texas", "Gonzaga", "Missouri", "Purdue"],
+      "round2": ["Arizona", "Wisconsin", "Gonzaga", "Purdue"],
+      "sweet16": ["Arizona", "Purdue"],
+      "elite8": "Arizona"
+    },
+    "midwest": {
+      "round1": ["Michigan", "Georgia", "Texas Tech", "Alabama", "Tennessee", "Virginia", "Santa Clara", "Iowa St."],
+      "round2": ["Michigan", "Alabama", "Tennessee", "Iowa St."],
+      "sweet16": ["Michigan", "Iowa St."],
+      "elite8": "Iowa St."
+    }
+  },
+  "final_four": {
+    "east_south_winner": "Houston",
+    "west_midwest_winner": "Arizona"
+  },
+  "champion": "Arizona"
+}

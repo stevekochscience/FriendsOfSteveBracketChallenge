@@ -1,0 +1,52 @@
+{
+  "regions": {
+    "east": {
+      "games": [
+        { "top_seed": 1, "top_team": "Duke", "bottom_seed": 16, "bottom_team": "Siena" },
+        { "top_seed": 8, "top_team": "Ohio St.", "bottom_seed": 9, "bottom_team": "TCU" },
+        { "top_seed": 5, "top_team": "St. John's", "bottom_seed": 12, "bottom_team": "N. Iowa" },
+        { "top_seed": 4, "top_team": "Kansas", "bottom_seed": 13, "bottom_team": "Cal Baptist" },
+        { "top_seed": 6, "top_team": "Louisville", "bottom_seed": 11, "bottom_team": "SFLA" },
+        { "top_seed": 3, "top_team": "MICHST", "bottom_seed": 14, "bottom_team": "NDAKST" },
+        { "top_seed": 7, "top_team": "UCLA", "bottom_seed": 10, "bottom_team": "UCF" },
+        { "top_seed": 2, "top_team": "UConn", "bottom_seed": 15, "bottom_team": "Furman" }
+      ]
+    },
+    "south": {
+      "games": [
+        { "top_seed": 1, "top_team": "Florida", "bottom_seed": 16, "bottom_team": "PVAM" },
+        { "top_seed": 8, "top_team": "Clemson", "bottom_seed": 9, "bottom_team": "Iowa" },
+        { "top_seed": 5, "top_team": "Vanderbilt", "bottom_seed": 12, "bottom_team": "McNeese" },
+        { "top_seed": 4, "top_team": "Nebraska", "bottom_seed": 13, "bottom_team": "Troy" },
+        { "top_seed": 6, "top_team": "N. Carolina", "bottom_seed": 11, "bottom_team": "VCU" },
+        { "top_seed": 3, "top_team": "Illinois", "bottom_seed": 14, "bottom_team": "Penn" },
+        { "top_seed": 7, "top_team": "MARYCA", "bottom_seed": 10, "bottom_team": "Texas A&M" },
+        { "top_seed": 2, "top_team": "Houston", "bottom_seed": 15, "bottom_team": "Idaho" }
+      ]
+    },
+    "west": {
+      "games": [
+        { "top_seed": 1, "top_team": "Arizona", "bottom_seed": 16, "bottom_team": "LIU" },
+        { "top_seed": 8, "top_team": "Villanova", "bottom_seed": 9, "bottom_team": "Utah St." },
+        { "top_seed": 5, "top_team": "Wisconsin", "bottom_seed": 12, "bottom_team": "High Point" },
+        { "top_seed": 4, "top_team": "Arkansas", "bottom_seed": 13, "bottom_team": "Hawaii" },
+        { "top_seed": 6, "top_team": "BYU", "bottom_seed": 11, "bottom_team": "Texas" },
+        { "top_seed": 3, "top_team": "Gonzaga", "bottom_seed": 14, "bottom_team": "KENSAW" },
+        { "top_seed": 7, "top_team": "Miami", "bottom_seed": 10, "bottom_team": "Missouri" },
+        { "top_seed": 2, "top_team": "Purdue", "bottom_seed": 15, "bottom_team": "Queens" }
+      ]
+    },
+    "midwest": {
+      "games": [
+        { "top_seed": 1, "top_team": "Michigan", "bottom_seed": 16, "bottom_team": "Howard" },
+        { "top_seed": 8, "top_team": "Georgia", "bottom_seed": 9, "bottom_team": "Saint Louis" },
+        { "top_seed": 5, "top_team": "Texas Tech", "bottom_seed": 12, "bottom_team": "Akron" },
+        { "top_seed": 4, "top_team": "Alabama", "bottom_seed": 13, "bottom_team": "Hofstra" },
+        { "top_seed": 6, "top_team": "Tennessee", "bottom_seed": 11, "bottom_team": "MIAOH" },
+        { "top_seed": 3, "top_team": "Virginia", "bottom_seed": 14, "bottom_team": "Wright St." },
+        { "top_seed": 7, "top_team": "Kentucky", "bottom_seed": 10, "bottom_team": "Santa Clara" },
+        { "top_seed": 2, "top_team": "Iowa St.", "bottom_seed": 15, "bottom_team": "Tenn. State" }
+      ]
+    }
+  }
+}
