@@ -130,6 +130,17 @@ h1 {
 .card-watch .watch-icon { margin-right: 3px; }
 .card-watch .watch-team { color: #f7c948; font-weight: 600; }
 .card-watch .watch-reason { color: #888; }
+.card-badge {
+  font-size: 0.75em;
+  color: #c9a0dc;
+  margin-bottom: 4px;
+  font-style: italic;
+}
+.card-perfect {
+  font-size: 0.72em;
+  color: #f7c948;
+  margin-bottom: 4px;
+}
 .card-rounds {
   display: flex;
   gap: 2px;
@@ -445,6 +456,112 @@ function getWatchGame(picks, tournament, results) {
   return '<span class="watch-icon">\uD83D\uDCFA</span> ' + bestText;
 }
 
+function getPerfectRegions(picks, results, eliminated) {
+  var perfList = [];
+  for (var r = 0; r < REGIONS.length; r++) {
+    var reg = REGIONS[r];
+    var rr = results.results[reg];
+    var rp = picks.regions[reg];
+    var perfect = true;
+    var played = 0;
+    for (var j = 0; j < 8; j++) {
+      var g = rr.round1[j];
+      var pick = rp.round1[j];
+      if (g && g.status === 'final') {
+        played++;
+        if (g.winner !== pick) { perfect = false; break; }
+      } else {
+        if (eliminated[pick]) { perfect = false; break; }
+      }
+    }
+    if (!perfect) continue;
+    var rounds = ['round2', 'sweet16'];
+    for (var k = 0; k < rounds.length; k++) {
+      for (var m = 0; m < rp[rounds[k]].length; m++) {
+        if (eliminated[rp[rounds[k]][m]]) perfect = false;
+      }
+    }
+    if (eliminated[rp.elite8]) perfect = false;
+    if (perfect) perfList.push(REGION_NAMES[reg] + ' (' + played + '/8)');
+  }
+  return perfList;
+}
+
+function getAward(picks, tournament, results, eliminated) {
+  var name = picks.participant;
+  var r, j, rp, game, upsetCount = 0, bigUpsets = [];
+
+  /* Count upset picks (lower seed picked) */
+  for (r = 0; r < REGIONS.length; r++) {
+    var games = tournament.regions[REGIONS[r]].games;
+    rp = picks.regions[REGIONS[r]];
+    for (j = 0; j < 8; j++) {
+      game = games[j];
+      var pick = rp.round1[j];
+      if (pick === game.bottom_team && game.bottom_seed > game.top_seed) {
+        upsetCount++;
+        var diff = game.bottom_seed - game.top_seed;
+        if (diff >= 8) bigUpsets.push('(' + game.bottom_seed + ')' + pick);
+        else if (diff >= 4) bigUpsets.push('(' + game.bottom_seed + ')' + pick);
+      }
+    }
+  }
+
+  /* Check specific patterns */
+  var allR1 = [];
+  for (r = 0; r < REGIONS.length; r++) {
+    rp = picks.regions[REGIONS[r]];
+    for (j = 0; j < rp.round1.length; j++) allR1.push(rp.round1[j]);
+  }
+
+  /* 16 seed pick */
+  var has16 = false;
+  for (r = 0; r < REGIONS.length; r++) {
+    var games2 = tournament.regions[REGIONS[r]].games;
+    rp = picks.regions[REGIONS[r]];
+    if (rp.round1[0] === games2[0].bottom_team) has16 = true;
+  }
+
+  /* Check for eliminated champion with high upsets */
+  var champDead = !!eliminated[picks.champion];
+
+  /* Assign awards based on bracket personality */
+  if (has16) return '\uD83E\uDD2F 16-Seed Believer';
+  if (upsetCount >= 10) return '\uD83C\uDF2A Agent of Chaos';
+  if (upsetCount >= 7) return '\uD83D\uDD25 Upset Artist';
+
+  /* Check for specific team loyalties */
+  var depth = getTeamDepth(picks);
+  var champTeam = picks.champion;
+
+  if (champTeam === 'Duke') return '\uD83D\uDE08 Blue Devil Disciple';
+  if (champTeam === 'UConn') return '\uD83D\uDC3E Husky Faithful';
+  if (champTeam === 'Florida') return '\uD83D\uDC0A Gator Believer';
+  if (champTeam === 'Wisconsin' && champDead) return '\uD83E\uDEA6 Badger Dreamer (RIP)';
+
+  /* Check for picking lots of Big Ten teams deep */
+  var bigTen = ['Michigan', 'Iowa St.', 'Ohio St.', 'Illinois', 'Nebraska', 'Purdue', 'Wisconsin', 'MICHST'];
+  var bigTenDeep = 0;
+  for (var t = 0; t < bigTen.length; t++) {
+    if (depth[bigTen[t]] && depth[bigTen[t]] >= 3) bigTenDeep++;
+  }
+  if (bigTenDeep >= 4) return '\uD83C\uDFC8 Big Ten Loyalist';
+
+  /* Midwest/region specific */
+  if (picks.regions.midwest.elite8 === 'Iowa St.' && depth['Iowa St.'] >= 4) return '\uD83C\uDF2A Cyclone Rider';
+
+  /* Default based on upset count */
+  if (upsetCount <= 2) return '\uD83D\uDCCA Chalk Talk';
+  if (upsetCount >= 5) return '\uD83C\uDFB2 Roll the Dice';
+
+  /* Fallbacks by name for unique bracket traits */
+  if (depth['UCLA'] >= 4) return '\uD83C\uDF1F Bruin Booster';
+  if (depth['Villanova'] >= 3) return '\uD83D\uDE3C Wildcat Watcher';
+  if (depth['McNeese'] >= 2 || depth['Troy'] >= 1) return '\uD83C\uDF1F Cinderella Hunter';
+
+  return '\uD83C\uDFC0 Bracketologist';
+}
+
 function pickStatus(pick, gameResult, eliminated) {
   if (gameResult && gameResult.status === 'final') {
     if (gameResult.winner === pick) return 'correct';
@@ -596,7 +713,9 @@ function render(tournament, results, allPicks) {
       maxPossible: s.maxPossible,
       roundCorrect: s.roundCorrect,
       champEliminated: s.champEliminated,
-      watchGame: getWatchGame(p, tournament, results)
+      watchGame: getWatchGame(p, tournament, results),
+      perfectRegions: getPerfectRegions(p, results, eliminated),
+      award: getAward(p, tournament, results, eliminated)
     });
   }
 
@@ -640,6 +759,14 @@ function render(tournament, results, allPicks) {
       html += '<div class="card-watch">' + st.watchGame + '</div>';
     }
 
+    if (st.award) {
+      html += '<div class="card-badge">' + st.award + '</div>';
+    }
+
+    if (st.perfectRegions.length > 0) {
+      html += '<div class="card-perfect">\u2B50 Perfect region alive: ' + st.perfectRegions.join(', ') + '</div>';
+    }
+
     html += '<div class="card-rounds">';
     for (var r = 0; r < 6; r++) {
       var val = st.roundCorrect[r];
@@ -659,7 +786,7 @@ function render(tournament, results, allPicks) {
   html += '<div class="standings-table">';
   html += '<table>';
   html += '<tr>';
-  html += '<th>Rank</th><th>Name</th><th>Score</th><th>Max</th><th>Champion</th>';
+  html += '<th>Rank</th><th>Name</th><th>Score</th><th>Max</th><th>Champion</th><th>Award</th>';
   for (var h = 0; h < 6; h++) { html += '<th>' + ROUND_LABELS[h] + '</th>'; }
   html += '</tr>';
 
@@ -674,6 +801,7 @@ function render(tournament, results, allPicks) {
     var champClass2 = st2.champEliminated ? 'champ-dead' : 'champ-alive';
     var champDisplay2 = st2.champEliminated ? '\u274C ' + st2.champion : st2.champion;
     html += '<td class="' + champClass2 + '">' + champDisplay2 + '</td>';
+    html += '<td style="font-size:0.75em;color:#c9a0dc;font-style:italic">' + (st2.award || '') + '</td>';
     for (var r2 = 0; r2 < 6; r2++) {
       var val2 = st2.roundCorrect[r2];
       var cls2 = val2 > 0 ? 'round-correct' : 'round-zero';
