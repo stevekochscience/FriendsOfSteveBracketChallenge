@@ -72,7 +72,10 @@ h1 {
   border-radius: 10px;
   padding: 12px 14px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+  cursor: pointer;
+  transition: background 0.15s;
 }
+.card:active { background: #1a2a4e; }
 .card.rank1 { border-left: 3px solid #f7c948; }
 .card-top {
   display: flex;
@@ -184,10 +187,108 @@ tr.rank1 { background: #1a2a3e; }
 tr.rank1 td { font-weight: bold; }
 .score { font-size: 1.3em; font-weight: bold; color: #4ecca3; }
 .max-possible { color: #888; font-size: 0.85em; }
-.name-cell { font-weight: 600; }
+.name-cell { font-weight: 600; cursor: pointer; }
+.name-cell:hover { color: #f7c948; }
 .rank-cell { font-size: 1.1em; font-weight: bold; color: #f7c948; }
 .round-correct { color: #4ecca3; }
 .round-zero { color: #555; }
+
+/* ---- DETAIL VIEW ---- */
+.detail-view { max-width: 600px; margin: 0 auto; }
+.back-btn {
+  display: inline-block;
+  padding: 8px 14px;
+  margin-bottom: 12px;
+  background: #0f3460;
+  color: #f7c948;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.85em;
+  font-weight: 600;
+  cursor: pointer;
+}
+.back-btn:active { background: #1a4a7e; }
+.detail-header {
+  background: #16213e;
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 12px;
+  text-align: center;
+}
+.detail-name { font-size: 1.4em; font-weight: 700; margin-bottom: 4px; }
+.detail-score-line { font-size: 1.1em; margin-bottom: 4px; }
+.detail-score-num { color: #4ecca3; font-weight: bold; font-size: 1.3em; }
+.detail-max-num { color: #888; }
+.detail-champ { font-size: 0.95em; font-weight: 600; margin-bottom: 4px; }
+.detail-path {
+  font-size: 0.8em;
+  color: #888;
+  margin-top: 6px;
+}
+.detail-path .path-team { font-weight: 600; }
+.region-section {
+  background: #16213e;
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 8px;
+}
+.region-title {
+  font-size: 0.9em;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #f7c948;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #2a3a5e;
+}
+.round-row {
+  margin-bottom: 6px;
+}
+.round-label {
+  font-size: 0.7em;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 2px;
+}
+.pick-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.pick-chip {
+  font-size: 0.78em;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: #0f1a30;
+  white-space: nowrap;
+}
+.pick-correct { color: #4ecca3; border-left: 2px solid #4ecca3; }
+.pick-wrong { color: #e74c3c; text-decoration: line-through; border-left: 2px solid #e74c3c; }
+.pick-doomed { color: #666; text-decoration: line-through; border-left: 2px solid #444; }
+.pick-pending { color: #ccc; border-left: 2px solid #555; }
+.ff-section {
+  background: #16213e;
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 8px;
+}
+.ff-title {
+  font-size: 0.9em;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #f7c948;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #2a3a5e;
+}
+.ff-game {
+  margin-bottom: 6px;
+  font-size: 0.85em;
+}
+.ff-label { color: #888; font-size: 0.8em; }
 
 @media (min-width: 768px) {
   body { padding: 20px; }
@@ -195,6 +296,7 @@ tr.rank1 td { font-weight: bold; }
   .cards { display: none; }
   .standings-table { display: block; }
   .scoring-info { font-size: 0.8em; }
+  .detail-view .cards { display: flex; }
 }
 </style>
 </head>
@@ -205,13 +307,17 @@ tr.rank1 td { font-weight: bold; }
 <script>
 var SCORING = [1, 2, 3, 5, 8, 13];
 var REGIONS = ['east', 'south', 'west', 'midwest'];
+var REGION_NAMES = {east:'East', south:'South', west:'West', midwest:'Midwest'};
 var ROUND_KEYS = ['round1', 'round2', 'sweet16', 'elite8'];
+var ROUND_NAMES = ['Round of 64', 'Round of 32', 'Sweet 16', 'Elite 8'];
 var ROUND_SIZES = [8, 4, 2, 1];
 var ROUND_LABELS = ['R64', 'R32', 'S16', 'E8', 'FF', 'NCG'];
 var PICK_FILES = [
   'brady', 'steve', 'gracie', 'kristy', 'kylan', 'larry',
   'laura', 'lisa', 'molly', 'peggy', 'sammy', 'shawn'
 ];
+
+var _tournament, _results, _allPicks, _eliminated;
 
 function getEliminated(results) {
   var elim = {};
@@ -249,7 +355,6 @@ function scorePicks(picks, results, eliminated) {
   for (i = 0; i < REGIONS.length; i++) {
     rr = results.results[REGIONS[i]];
     rp = picks.regions[REGIONS[i]];
-
     for (k = 0; k < ROUND_KEYS.length; k++) {
       roundIdx = k;
       var pts = SCORING[k];
@@ -260,83 +365,43 @@ function scorePicks(picks, results, eliminated) {
           g = arr[j];
           pick = parr[j];
           if (g && g.status === 'final') {
-            if (g.winner === pick) {
-              score += pts;
-              maxPossible += pts;
-              roundCorrect[roundIdx]++;
-            }
+            if (g.winner === pick) { score += pts; maxPossible += pts; roundCorrect[roundIdx]++; }
           } else {
-            if (!eliminated[pick]) {
-              maxPossible += pts;
-            }
+            if (!eliminated[pick]) { maxPossible += pts; }
           }
         }
       } else {
         g = rr.elite8;
         pick = rp.elite8;
         if (g && g.status === 'final') {
-          if (g.winner === pick) {
-            score += pts;
-            maxPossible += pts;
-            roundCorrect[roundIdx]++;
-          }
+          if (g.winner === pick) { score += pts; maxPossible += pts; roundCorrect[roundIdx]++; }
         } else {
-          if (!eliminated[pick]) {
-            maxPossible += pts;
-          }
+          if (!eliminated[pick]) { maxPossible += pts; }
         }
       }
     }
   }
-
   var ff = results.final_four;
   var pfour = picks.final_four;
-
   var semi1pick = pfour.east_south_winner;
   if (ff.semifinal1 && ff.semifinal1.status === 'final') {
-    if (ff.semifinal1.winner === semi1pick) {
-      score += SCORING[4];
-      maxPossible += SCORING[4];
-      roundCorrect[4]++;
-    }
-  } else {
-    if (!eliminated[semi1pick]) maxPossible += SCORING[4];
-  }
-
+    if (ff.semifinal1.winner === semi1pick) { score += SCORING[4]; maxPossible += SCORING[4]; roundCorrect[4]++; }
+  } else { if (!eliminated[semi1pick]) maxPossible += SCORING[4]; }
   var semi2pick = pfour.west_midwest_winner;
   if (ff.semifinal2 && ff.semifinal2.status === 'final') {
-    if (ff.semifinal2.winner === semi2pick) {
-      score += SCORING[4];
-      maxPossible += SCORING[4];
-      roundCorrect[4]++;
-    }
-  } else {
-    if (!eliminated[semi2pick]) maxPossible += SCORING[4];
-  }
-
+    if (ff.semifinal2.winner === semi2pick) { score += SCORING[4]; maxPossible += SCORING[4]; roundCorrect[4]++; }
+  } else { if (!eliminated[semi2pick]) maxPossible += SCORING[4]; }
   var champPick = picks.champion;
   if (ff.championship && ff.championship.status === 'final') {
-    if (ff.championship.winner === champPick) {
-      score += SCORING[5];
-      maxPossible += SCORING[5];
-      roundCorrect[5]++;
-    }
-  } else {
-    if (!eliminated[champPick]) maxPossible += SCORING[5];
-  }
+    if (ff.championship.winner === champPick) { score += SCORING[5]; maxPossible += SCORING[5]; roundCorrect[5]++; }
+  } else { if (!eliminated[champPick]) maxPossible += SCORING[5]; }
 
-  return {
-    score: score,
-    maxPossible: maxPossible,
-    roundCorrect: roundCorrect,
-    champEliminated: !!eliminated[picks.champion]
-  };
+  return { score: score, maxPossible: maxPossible, roundCorrect: roundCorrect, champEliminated: !!eliminated[picks.champion] };
 }
 
 function getTeamDepth(picks) {
   var depth = {};
   var r, i, rp;
-  var DEPTH_LABELS = {1:'R1 pick',2:'R32 pick',3:'Sweet 16 pick',4:'Elite 8 pick',5:'Final Four pick',6:'championship pick'};
   for (r = 0; r < REGIONS.length; r++) {
     rp = picks.regions[REGIONS[r]];
     for (i = 0; i < rp.round1.length; i++) { if (!depth[rp.round1[i]]) depth[rp.round1[i]] = 1; }
@@ -356,7 +421,6 @@ function getWatchGame(picks, tournament, results) {
   var bestDepth = 0;
   var bestText = '';
   var r, j, g, game, topTeam, botTeam, pickedTeam, pickedDepth, opponent;
-
   for (r = 0; r < REGIONS.length; r++) {
     var rr = results.results[REGIONS[r]];
     var games = tournament.regions[REGIONS[r]].games;
@@ -381,15 +445,150 @@ function getWatchGame(picks, tournament, results) {
   return '<span class="watch-icon">\uD83D\uDCFA</span> ' + bestText;
 }
 
+function pickStatus(pick, gameResult, eliminated) {
+  if (gameResult && gameResult.status === 'final') {
+    if (gameResult.winner === pick) return 'correct';
+    return 'wrong';
+  }
+  if (eliminated[pick]) return 'doomed';
+  return 'pending';
+}
+
+function pickChip(team, status) {
+  var icon = '';
+  if (status === 'correct') icon = '\u2705 ';
+  if (status === 'wrong') icon = '\u274C ';
+  return '<span class="pick-chip pick-' + status + '">' + icon + team + '</span>';
+}
+
+function ffPickStatus(pick, gameResult, eliminated) {
+  if (gameResult && gameResult.status === 'final') {
+    if (gameResult.winner === pick) return 'correct';
+    return 'wrong';
+  }
+  if (eliminated[pick]) return 'doomed';
+  return 'pending';
+}
+
+function showDetail(idx) {
+  var picks = _allPicks[idx];
+  var s = scorePicks(picks, _results, _eliminated);
+  var html = '';
+
+  html += '<div class="detail-view">';
+  html += '<button class="back-btn" onclick="showStandings()">\u2190 Back to Standings</button>';
+
+  /* Header */
+  html += '<div class="detail-header">';
+  html += '<div class="detail-name">' + picks.participant + '</div>';
+  html += '<div class="detail-score-line"><span class="detail-score-num">' + s.score + '</span> pts <span class="detail-max-num">/ ' + s.maxPossible + ' max</span></div>';
+  var cCls = s.champEliminated ? 'champ-dead' : 'champ-alive';
+  var cIcon = s.champEliminated ? '\u274C ' : '\uD83C\uDFC6 ';
+  html += '<div class="detail-champ ' + cCls + '">' + cIcon + picks.champion + '</div>';
+
+  /* Champion path */
+  html += '<div class="detail-path">';
+  var e8picks = [];
+  for (var ri = 0; ri < REGIONS.length; ri++) {
+    var rKey = REGIONS[ri];
+    e8picks.push('<span class="path-team">' + picks.regions[rKey].elite8 + '</span>');
+  }
+  html += 'Path: ' + e8picks.join(' \u2192 ') + ' \u2192 ';
+  html += '<span class="path-team">' + picks.final_four.east_south_winner + '</span> vs ';
+  html += '<span class="path-team">' + picks.final_four.west_midwest_winner + '</span> \u2192 ';
+  html += '<span class="path-team">' + picks.champion + '</span>';
+  html += '</div>';
+  html += '</div>';
+
+  /* Region sections */
+  for (var r = 0; r < REGIONS.length; r++) {
+    var regKey = REGIONS[r];
+    var rp = picks.regions[regKey];
+    var rr = _results.results[regKey];
+
+    html += '<div class="region-section">';
+    html += '<div class="region-title">' + REGION_NAMES[regKey] + '</div>';
+
+    for (var k = 0; k < ROUND_KEYS.length; k++) {
+      html += '<div class="round-row">';
+      html += '<div class="round-label">' + ROUND_NAMES[k] + ' (' + SCORING[k] + 'pt)</div>';
+      html += '<div class="pick-list">';
+
+      if (k < 3) {
+        var arr = rr[ROUND_KEYS[k]];
+        var parr = rp[ROUND_KEYS[k]];
+        for (var j = 0; j < ROUND_SIZES[k]; j++) {
+          var g = arr[j];
+          var pick = parr[j];
+          var st = pickStatus(pick, g, _eliminated);
+          html += pickChip(pick, st);
+        }
+      } else {
+        var g2 = rr.elite8;
+        var pick2 = rp.elite8;
+        var st2 = pickStatus(pick2, g2, _eliminated);
+        html += pickChip(pick2, st2);
+      }
+
+      html += '</div></div>';
+    }
+
+    html += '</div>';
+  }
+
+  /* Final Four + Championship */
+  html += '<div class="ff-section">';
+  html += '<div class="ff-title">Final Four & Championship</div>';
+
+  var ff = _results.final_four;
+
+  html += '<div class="ff-game">';
+  html += '<div class="ff-label">Semifinal: East vs South (8pts)</div>';
+  var s1pick = picks.final_four.east_south_winner;
+  var s1status = ffPickStatus(s1pick, ff.semifinal1, _eliminated);
+  html += pickChip(s1pick, s1status);
+  html += '</div>';
+
+  html += '<div class="ff-game">';
+  html += '<div class="ff-label">Semifinal: West vs Midwest (8pts)</div>';
+  var s2pick = picks.final_four.west_midwest_winner;
+  var s2status = ffPickStatus(s2pick, ff.semifinal2, _eliminated);
+  html += pickChip(s2pick, s2status);
+  html += '</div>';
+
+  html += '<div class="ff-game">';
+  html += '<div class="ff-label">Championship (13pts)</div>';
+  var champStatus = ffPickStatus(picks.champion, ff.championship, _eliminated);
+  html += pickChip(picks.champion, champStatus);
+  html += '</div>';
+
+  html += '</div>';
+  html += '</div>';
+
+  document.getElementById('output').innerHTML = html;
+  window.scrollTo(0, 0);
+}
+
+function showStandings() {
+  render(_tournament, _results, _allPicks);
+}
+
 function render(tournament, results, allPicks) {
   var eliminated = getEliminated(results);
+  _tournament = tournament;
+  _results = results;
+  _allPicks = allPicks;
+  _eliminated = eliminated;
+
   var standings = [];
   var i;
 
+  /* Build standings with original index for detail lookup */
   for (i = 0; i < allPicks.length; i++) {
     var p = allPicks[i];
     var s = scorePicks(p, results, eliminated);
     standings.push({
+      idx: i,
       name: p.participant,
       champion: p.champion,
       notes: p.notes || '',
@@ -422,7 +621,7 @@ function render(tournament, results, allPicks) {
   for (i = 0; i < standings.length; i++) {
     var st = standings[i];
     var cardCls = i === 0 ? 'card rank1' : 'card';
-    html += '<div class="' + cardCls + '">';
+    html += '<div class="' + cardCls + '" onclick="showDetail(' + st.idx + ')">';
 
     html += '<div class="card-top">';
     html += '<span class="card-rank">#' + (i + 1) + '</span>';
@@ -460,14 +659,8 @@ function render(tournament, results, allPicks) {
   html += '<div class="standings-table">';
   html += '<table>';
   html += '<tr>';
-  html += '<th>Rank</th>';
-  html += '<th>Name</th>';
-  html += '<th>Score</th>';
-  html += '<th>Max</th>';
-  html += '<th>Champion</th>';
-  for (var h = 0; h < 6; h++) {
-    html += '<th>' + ROUND_LABELS[h] + '</th>';
-  }
+  html += '<th>Rank</th><th>Name</th><th>Score</th><th>Max</th><th>Champion</th>';
+  for (var h = 0; h < 6; h++) { html += '<th>' + ROUND_LABELS[h] + '</th>'; }
   html += '</tr>';
 
   for (i = 0; i < standings.length; i++) {
@@ -475,37 +668,27 @@ function render(tournament, results, allPicks) {
     var rankClass = i === 0 ? ' class="rank1"' : '';
     html += '<tr' + rankClass + '>';
     html += '<td class="rank-cell">' + (i + 1) + '</td>';
-    html += '<td class="name-cell">' + st2.name + '</td>';
+    html += '<td class="name-cell" onclick="showDetail(' + st2.idx + ')">' + st2.name + '</td>';
     html += '<td class="score">' + st2.score + '</td>';
     html += '<td class="max-possible">' + st2.maxPossible + '</td>';
-
     var champClass2 = st2.champEliminated ? 'champ-dead' : 'champ-alive';
-    var champDisplay2 = st2.champion;
-    if (st2.champEliminated) {
-      champDisplay2 = '\u274C ' + st2.champion;
-    }
+    var champDisplay2 = st2.champEliminated ? '\u274C ' + st2.champion : st2.champion;
     html += '<td class="' + champClass2 + '">' + champDisplay2 + '</td>';
-
     for (var r2 = 0; r2 < 6; r2++) {
       var val2 = st2.roundCorrect[r2];
       var cls2 = val2 > 0 ? 'round-correct' : 'round-zero';
       html += '<td class="' + cls2 + '">' + val2 + '</td>';
     }
-
     html += '</tr>';
   }
 
-  html += '</table>';
-  html += '</div>';
-
+  html += '</table></div>';
   html += '<div class="updated">Last updated: ' + results.last_updated + ' | Source: ' + results.source + '</div>';
-
   document.getElementById('output').innerHTML = html;
 }
 
 function run() {
   var tournamentData, resultsData;
-  var pickPromises = [];
   var allPicks = [];
   var i;
   var bust = '?v=' + Date.now();
@@ -516,7 +699,6 @@ function run() {
   ]).then(function(baseData) {
     tournamentData = baseData[0];
     resultsData = baseData[1];
-
     var fetches = [];
     for (i = 0; i < PICK_FILES.length; i++) {
       fetches.push(
