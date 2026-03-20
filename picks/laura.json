@@ -5,13 +5,13 @@
   "notes": "PVAM shocks the world in round 1, but Wisconsin goes all the way.",
   "regions": {
     "east": {
-      "round1": ["Duke", "TCU", "St. John's", "Kansas", "Louisville", "MICHST", "UCLA", "UConn"],
+      "round1": ["Duke", "Ohio St.", "St. John's", "Kansas", "SFLA", "MICHST", "UCLA", "UConn"],
       "round2": ["Duke", "Kansas", "MICHST", "UConn"],
       "sweet16": ["Duke", "MICHST"],
       "elite8": "Duke"
     },
     "south": {
-      "round1": ["PVAM", "Clemson", "Vanderbilt", "Nebraska", "N. Carolina", "Illinois", "Texas A&M", "Houston"],
+      "round1": ["PVAM", "Clemson", "Vanderbilt", "Nebraska", "N. Carolina", "Illinois", "MARYCA", "Houston"],
       "round2": ["Clemson", "Vanderbilt", "N. Carolina", "Houston"],
       "sweet16": ["Vanderbilt", "N. Carolina"],
       "elite8": "Vanderbilt"

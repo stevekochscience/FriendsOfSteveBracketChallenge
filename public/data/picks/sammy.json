@@ -5,19 +5,19 @@
   "notes": "South Florida to the Sweet 16, but Michigan brings the hardware home.",
   "regions": {
     "east": {
-      "round1": ["Duke", "TCU", "St. John's", "Kansas", "SFLA", "MICHST", "UCLA", "UConn"],
+      "round1": ["Duke", "Ohio St.", "St. John's", "Kansas", "SFLA", "MICHST", "UCLA", "UConn"],
       "round2": ["Duke", "Kansas", "SFLA", "UCLA"],
       "sweet16": ["Duke", "UCLA"],
       "elite8": "Duke"
     },
     "south": {
-      "round1": ["Florida", "Clemson", "Vanderbilt", "Nebraska", "VCU", "Penn", "Texas A&M", "Houston"],
+      "round1": ["Florida", "Clemson", "Vanderbilt", "Troy", "VCU", "Illinois", "MARYCA", "Houston"],
       "round2": ["Florida", "Vanderbilt", "VCU", "Houston"],
       "sweet16": ["Florida", "Houston"],
       "elite8": "Houston"
     },
     "west": {
-      "round1": ["Arizona", "Utah St.", "Wisconsin", "Arkansas", "Texas", "Gonzaga", "Missouri", "Purdue"],
+      "round1": ["Arizona", "Utah St.", "Wisconsin", "Arkansas", "BYU", "Gonzaga", "Missouri", "Purdue"],
       "round2": ["Arizona", "Wisconsin", "Gonzaga", "Missouri"],
       "sweet16": ["Arizona", "Gonzaga"],
       "elite8": "Arizona"

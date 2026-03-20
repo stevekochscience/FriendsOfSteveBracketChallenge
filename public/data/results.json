@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-03-19T23:00:00",
+  "last_updated": "2026-03-20T08:00:00",
   "source": "ESPN Scoreboard",
   "scoring": [1, 2, 3, 5, 8, 13],
   "results": {
@@ -25,9 +25,9 @@
         { "winner": "Vanderbilt", "loser": "McNeese", "score": "78-68", "status": "final" },
         { "winner": "Nebraska", "loser": "Troy", "score": "76-47", "status": "final" },
         { "winner": "VCU", "loser": "N. Carolina", "score": "82-78", "status": "final" },
-        { "winner": null, "loser": null, "score": null, "status": "pending" },
+        { "winner": "Illinois", "loser": "Penn", "score": "105-70", "status": "final" },
         { "winner": "Texas A&M", "loser": "MARYCA", "score": "63-50", "status": "final" },
-        { "winner": null, "loser": null, "score": null, "status": "pending" }
+        { "winner": "Houston", "loser": "Idaho", "score": "78-47", "status": "final" }
       ],
       "round2": [null, null, null, null],
       "sweet16": [null, null],
@@ -40,7 +40,7 @@
         { "winner": "High Point", "loser": "Wisconsin", "score": "83-82", "status": "final" },
         { "winner": "Arkansas", "loser": "Hawaii", "score": "97-78", "status": "final" },
         { "winner": "Texas", "loser": "BYU", "score": "79-71", "status": "final" },
-        { "winner": null, "loser": null, "score": null, "status": "pending" },
+        { "winner": "Gonzaga", "loser": "KENSAW", "score": "73-64", "status": "final" },
         { "winner": null, "loser": null, "score": null, "status": "pending" },
         { "winner": null, "loser": null, "score": null, "status": "pending" }
       ],
@@ -51,7 +51,7 @@
     "midwest": {
       "round1": [
         { "winner": "Michigan", "loser": "Howard", "score": "101-80", "status": "final" },
-        { "winner": null, "loser": null, "score": null, "status": "pending" },
+        { "winner": "Saint Louis", "loser": "Georgia", "score": "102-77", "status": "final" },
         { "winner": null, "loser": null, "score": null, "status": "pending" },
         { "winner": null, "loser": null, "score": null, "status": "pending" },
         { "winner": null, "loser": null, "score": null, "status": "pending" },

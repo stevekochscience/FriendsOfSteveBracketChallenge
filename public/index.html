@@ -332,10 +332,11 @@ function run() {
   var pickPromises = [];
   var allPicks = [];
   var i;
+  var bust = '?v=' + Date.now();
 
   Promise.all([
-    fetch('data/tournament.json').then(function(r) { return r.json(); }),
-    fetch('data/results.json').then(function(r) { return r.json(); })
+    fetch('data/tournament.json' + bust).then(function(r) { return r.json(); }),
+    fetch('data/results.json' + bust).then(function(r) { return r.json(); })
   ]).then(function(baseData) {
     tournamentData = baseData[0];
     resultsData = baseData[1];
@@ -343,7 +344,7 @@ function run() {
     var fetches = [];
     for (i = 0; i < PICK_FILES.length; i++) {
       fetches.push(
-        fetch('data/picks/' + PICK_FILES[i] + '.json').then(function(r) { return r.json(); })
+        fetch('data/picks/' + PICK_FILES[i] + '.json' + bust).then(function(r) { return r.json(); })
       );
     }
     return Promise.all(fetches);

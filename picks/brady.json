@@ -5,19 +5,19 @@
   "notes": "Betting on Blue Devils dominance with Duke going all the way.",
   "regions": {
     "east": {
-      "round1": ["Duke", "TCU", "St. John's", "Kansas", "SFLA", "MICHST", "UCLA", "UConn"],
+      "round1": ["Duke", "Ohio St.", "St. John's", "Kansas", "SFLA", "MICHST", "UCLA", "UConn"],
       "round2": ["Duke", "St. John's", "MICHST", "UConn"],
       "sweet16": ["Duke", "MICHST"],
       "elite8": "Duke"
     },
     "south": {
-      "round1": ["Florida", "Iowa", "Vanderbilt", "Nebraska", "VCU", "Illinois", "Texas A&M", "Houston"],
+      "round1": ["Florida", "Iowa", "Vanderbilt", "Nebraska", "N. Carolina", "Illinois", "MARYCA", "Houston"],
       "round2": ["Florida", "Vanderbilt", "Illinois", "Houston"],
       "sweet16": ["Vanderbilt", "Houston"],
       "elite8": "Houston"
     },
     "west": {
-      "round1": ["Arizona", "Utah St.", "High Point", "Arkansas", "Texas", "Gonzaga", "Miami", "Purdue"],
+      "round1": ["Arizona", "Utah St.", "Wisconsin", "Arkansas", "Texas", "Gonzaga", "Miami", "Purdue"],
       "round2": ["Arizona", "Arkansas", "Gonzaga", "Purdue"],
       "sweet16": ["Arizona", "Gonzaga"],
       "elite8": "Arizona"
