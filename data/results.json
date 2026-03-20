@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-03-20T08:00:00",
+  "last_updated": "2026-03-20T16:30:00",
   "source": "ESPN Scoreboard",
   "scoring": [1, 2, 3, 5, 8, 13],
   "results": {
@@ -35,8 +35,8 @@
     },
     "west": {
       "round1": [
-        { "winner": null, "loser": null, "score": null, "status": "pending" },
-        { "winner": null, "loser": null, "score": null, "status": "pending" },
+        { "winner": "Arizona", "loser": "LIU", "score": "92-58", "status": "final" },
+        { "winner": "Utah St.", "loser": "Villanova", "score": "86-76", "status": "final" },
         { "winner": "High Point", "loser": "Wisconsin", "score": "83-82", "status": "final" },
         { "winner": "Arkansas", "loser": "Hawaii", "score": "97-78", "status": "final" },
         { "winner": "Texas", "loser": "BYU", "score": "79-71", "status": "final" },
@@ -52,12 +52,12 @@
       "round1": [
         { "winner": "Michigan", "loser": "Howard", "score": "101-80", "status": "final" },
         { "winner": "Saint Louis", "loser": "Georgia", "score": "102-77", "status": "final" },
-        { "winner": null, "loser": null, "score": null, "status": "pending" },
-        { "winner": null, "loser": null, "score": null, "status": "pending" },
-        { "winner": null, "loser": null, "score": null, "status": "pending" },
-        { "winner": null, "loser": null, "score": null, "status": "pending" },
-        { "winner": null, "loser": null, "score": null, "status": "pending" },
-        { "winner": null, "loser": null, "score": null, "status": "pending" }
+        { "winner": "Texas Tech", "loser": "Akron", "score": "91-71", "status": "final" },
+        { "winner": "Alabama", "loser": "Hofstra", "score": "90-70", "status": "final" },
+        { "winner": "Tennessee", "loser": "MIAOH", "score": "76-54", "status": "final" },
+        { "winner": "Virginia", "loser": "Wright St.", "score": "82-73", "status": "final" },
+        { "winner": "Kentucky", "loser": "Santa Clara", "score": "89-84", "status": "final" },
+        { "winner": "Iowa St.", "loser": "Tenn. State", "score": "108-74", "status": "final" }
       ],
       "round2": [null, null, null, null],
       "sweet16": [null, null],
