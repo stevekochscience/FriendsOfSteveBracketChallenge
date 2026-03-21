@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-03-20T16:30:00",
+  "last_updated": "2026-03-21T08:00:00",
   "source": "ESPN Scoreboard",
   "scoring": [1, 2, 3, 5, 8, 13],
   "results": {
@@ -7,12 +7,12 @@
       "round1": [
         { "winner": "Duke", "loser": "Siena", "score": "71-65", "status": "final" },
         { "winner": "TCU", "loser": "Ohio St.", "score": "66-64", "status": "final" },
-        { "winner": null, "loser": null, "score": null, "status": "pending" },
-        { "winner": null, "loser": null, "score": null, "status": "pending" },
+        { "winner": "St. John's", "loser": "N. Iowa", "score": "79-53", "status": "final" },
+        { "winner": "Kansas", "loser": "Cal Baptist", "score": "68-60", "status": "final" },
         { "winner": "Louisville", "loser": "SFLA", "score": "83-79", "status": "final" },
         { "winner": "MICHST", "loser": "NDAKST", "score": "92-67", "status": "final" },
-        { "winner": null, "loser": null, "score": null, "status": "pending" },
-        { "winner": null, "loser": null, "score": null, "status": "pending" }
+        { "winner": "UCLA", "loser": "UCF", "score": "75-71", "status": "final" },
+        { "winner": "UConn", "loser": "Furman", "score": "82-71", "status": "final" }
       ],
       "round2": [null, null, null, null],
       "sweet16": [null, null],
@@ -20,8 +20,8 @@
     },
     "south": {
       "round1": [
-        { "winner": null, "loser": null, "score": null, "status": "pending" },
-        { "winner": null, "loser": null, "score": null, "status": "pending" },
+        { "winner": "Florida", "loser": "PVAM", "score": "114-55", "status": "final" },
+        { "winner": "Iowa", "loser": "Clemson", "score": "67-61", "status": "final" },
         { "winner": "Vanderbilt", "loser": "McNeese", "score": "78-68", "status": "final" },
         { "winner": "Nebraska", "loser": "Troy", "score": "76-47", "status": "final" },
         { "winner": "VCU", "loser": "N. Carolina", "score": "82-78", "status": "final" },
@@ -41,8 +41,8 @@
         { "winner": "Arkansas", "loser": "Hawaii", "score": "97-78", "status": "final" },
         { "winner": "Texas", "loser": "BYU", "score": "79-71", "status": "final" },
         { "winner": "Gonzaga", "loser": "KENSAW", "score": "73-64", "status": "final" },
-        { "winner": null, "loser": null, "score": null, "status": "pending" },
-        { "winner": null, "loser": null, "score": null, "status": "pending" }
+        { "winner": "Miami", "loser": "Missouri", "score": "80-66", "status": "final" },
+        { "winner": "Purdue", "loser": "Queens", "score": "104-71", "status": "final" }
       ],
       "round2": [null, null, null, null],
       "sweet16": [null, null],
@@ -54,7 +54,7 @@
         { "winner": "Saint Louis", "loser": "Georgia", "score": "102-77", "status": "final" },
         { "winner": "Texas Tech", "loser": "Akron", "score": "91-71", "status": "final" },
         { "winner": "Alabama", "loser": "Hofstra", "score": "90-70", "status": "final" },
-        { "winner": "Tennessee", "loser": "MIAOH", "score": "76-54", "status": "final" },
+        { "winner": "Tennessee", "loser": "MIAOH", "score": "78-56", "status": "final" },
         { "winner": "Virginia", "loser": "Wright St.", "score": "82-73", "status": "final" },
         { "winner": "Kentucky", "loser": "Santa Clara", "score": "89-84", "status": "final" },
         { "winner": "Iowa St.", "loser": "Tenn. State", "score": "108-74", "status": "final" }
