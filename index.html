@@ -130,6 +130,18 @@ h1 {
 .card-watch .watch-icon { margin-right: 3px; }
 .card-watch .watch-team { color: #f7c948; font-weight: 600; }
 .card-watch .watch-reason { color: #888; }
+.card-style {
+  font-size: 0.75em;
+  color: #c084fc;
+  font-style: italic;
+  margin-bottom: 4px;
+}
+.style-pts {
+  font-size: 0.78em;
+  color: #c084fc;
+  font-style: italic;
+  max-width: 140px;
+}
 .card-badge {
   font-size: 0.75em;
   color: #c9a0dc;
@@ -327,6 +339,21 @@ var PICK_FILES = [
   'brady', 'steve', 'gracie', 'kristy', 'kylan', 'larry',
   'laura', 'lisa', 'molly', 'peggy', 'sammy', 'shawn'
 ];
+
+var STYLE_MAP = {
+  'Brady': 'Duke or die trying',
+  'Steve': 'Cool, calm, and Wildcat',
+  'Gracie': 'Tenn. State over Iowa St.?!',
+  'Kristy': 'Silent but deadly',
+  'Kylan': 'TCU truther, Arizona dreamer',
+  'Larry': 'RIP Wisconsin, gone too soon',
+  'Laura': 'PVAM > Florida, she said',
+  'Lisa': '8 upsets and a dream',
+  'Molly': 'Iowa St. over Michigan? Bold.',
+  'Peggy': 'Husky nation, ride or die',
+  'Sammy': 'Troy believer, chaos enjoyer',
+  'Shawn': '10 upsets, maximum chaos'
+};
 
 var _tournament, _results, _allPicks, _eliminated;
 
@@ -715,7 +742,8 @@ function render(tournament, results, allPicks) {
       champEliminated: s.champEliminated,
       watchGame: getWatchGame(p, tournament, results),
       perfectRegions: getPerfectRegions(p, results, eliminated),
-      award: getAward(p, tournament, results, eliminated)
+      award: getAward(p, tournament, results, eliminated),
+      style: STYLE_MAP[p.participant] || ''
     });
   }
 
@@ -755,6 +783,10 @@ function render(tournament, results, allPicks) {
     html += '<span class="card-champ ' + champClass + '">' + champIcon + st.champion + '</span>';
     html += '</div>';
 
+    if (st.style) {
+      html += '<div class="card-style">"' + st.style + '"</div>';
+    }
+
     if (st.watchGame) {
       html += '<div class="card-watch">' + st.watchGame + '</div>';
     }
@@ -786,7 +818,7 @@ function render(tournament, results, allPicks) {
   html += '<div class="standings-table">';
   html += '<table>';
   html += '<tr>';
-  html += '<th>Rank</th><th>Name</th><th>Score</th><th>Max</th><th>Champion</th><th>Award</th>';
+  html += '<th>Rank</th><th>Name</th><th>Score</th><th>Max</th><th>Champion</th><th>Style Points</th><th>Award</th>';
   for (var h = 0; h < 6; h++) { html += '<th>' + ROUND_LABELS[h] + '</th>'; }
   html += '</tr>';
 
@@ -801,6 +833,7 @@ function render(tournament, results, allPicks) {
     var champClass2 = st2.champEliminated ? 'champ-dead' : 'champ-alive';
     var champDisplay2 = st2.champEliminated ? '\u274C ' + st2.champion : st2.champion;
     html += '<td class="' + champClass2 + '">' + champDisplay2 + '</td>';
+    html += '<td class="style-pts">' + (st2.style || '') + '</td>';
     html += '<td style="font-size:0.75em;color:#c9a0dc;font-style:italic">' + (st2.award || '') + '</td>';
     for (var r2 = 0; r2 < 6; r2++) {
       var val2 = st2.roundCorrect[r2];
