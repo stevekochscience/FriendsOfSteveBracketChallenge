@@ -1018,6 +1018,22 @@ function showDetail(idx) {
   html += '<div class="detail-view">';
   html += '<button class="back-btn" onclick="showStandings()">\u2190 Back to Standings</button>';
 
+  /* What If banner on detail page */
+  var activeWI = [];
+  for (var wi = 0; wi < _whatIfStack.length; wi++) {
+    if (_whatIfStack[wi].team && _whatIfStack[wi].outcome) activeWI.push(_whatIfStack[wi]);
+  }
+  if (activeWI.length > 0) {
+    html += '<div class="whatif-banner">';
+    html += '<div class="wi-banner-title">\u26A0 WHAT IF MODE \u26A0</div>';
+    var wiDesc = [];
+    for (var wd = 0; wd < activeWI.length; wd++) {
+      wiDesc.push(activeWI[wd].team + ' ' + activeWI[wd].outcome);
+    }
+    html += '<div class="wi-banner-stack">' + wiDesc.join(' + ') + '</div>';
+    html += '</div>';
+  }
+
   /* Header */
   html += '<div class="detail-header">';
   html += '<div class="detail-name">' + picks.participant + '</div>';
