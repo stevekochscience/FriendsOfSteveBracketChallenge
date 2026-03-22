@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-03-21T08:00:00",
+  "last_updated": "2026-03-21T20:00:00",
   "source": "ESPN Scoreboard",
   "scoring": [1, 2, 3, 5, 8, 13],
   "results": {
@@ -14,7 +14,12 @@
         { "winner": "UCLA", "loser": "UCF", "score": "75-71", "status": "final" },
         { "winner": "UConn", "loser": "Furman", "score": "82-71", "status": "final" }
       ],
-      "round2": [null, null, null, null],
+      "round2": [
+        { "winner": "Duke", "loser": "TCU", "score": "81-58", "status": "final" },
+        null,
+        { "winner": "MICHST", "loser": "Louisville", "score": "77-69", "status": "final" },
+        null
+      ],
       "sweet16": [null, null],
       "elite8": null
     },
@@ -29,7 +34,12 @@
         { "winner": "Texas A&M", "loser": "MARYCA", "score": "63-50", "status": "final" },
         { "winner": "Houston", "loser": "Idaho", "score": "78-47", "status": "final" }
       ],
-      "round2": [null, null, null, null],
+      "round2": [
+        null,
+        null,
+        null,
+        { "winner": "Houston", "loser": "Texas A&M", "score": "88-57", "status": "final" }
+      ],
       "sweet16": [null, null],
       "elite8": null
     },
@@ -44,7 +54,12 @@
         { "winner": "Miami", "loser": "Missouri", "score": "80-66", "status": "final" },
         { "winner": "Purdue", "loser": "Queens", "score": "104-71", "status": "final" }
       ],
-      "round2": [null, null, null, null],
+      "round2": [
+        null,
+        null,
+        { "winner": "Texas", "loser": "Gonzaga", "score": "57-54", "status": "final" },
+        null
+      ],
       "sweet16": [null, null],
       "elite8": null
     },
@@ -59,7 +74,12 @@
         { "winner": "Kentucky", "loser": "Santa Clara", "score": "89-84", "status": "final" },
         { "winner": "Iowa St.", "loser": "Tenn. State", "score": "108-74", "status": "final" }
       ],
-      "round2": [null, null, null, null],
+      "round2": [
+        { "winner": "Michigan", "loser": "Saint Louis", "score": "95-72", "status": "final" },
+        null,
+        null,
+        null
+      ],
       "sweet16": [null, null],
       "elite8": null
     }

@@ -1168,10 +1168,24 @@ function render(tournament, results, allPicks) {
     return b.maxPossible - a.maxPossible;
   });
 
+  var finalCount = 0;
+  var fcr, fci;
+  for (var fc = 0; fc < REGIONS.length; fc++) {
+    fcr = results.results[REGIONS[fc]];
+    for (fci = 0; fci < 8; fci++) { if (fcr.round1[fci] && fcr.round1[fci].status === 'final') finalCount++; }
+    for (fci = 0; fci < 4; fci++) { if (fcr.round2[fci] && fcr.round2[fci].status === 'final') finalCount++; }
+    for (fci = 0; fci < 2; fci++) { if (fcr.sweet16[fci] && fcr.sweet16[fci].status === 'final') finalCount++; }
+    if (fcr.elite8 && fcr.elite8.status === 'final') finalCount++;
+  }
+  var ffr = results.final_four;
+  if (ffr.semifinal1 && ffr.semifinal1.status === 'final') finalCount++;
+  if (ffr.semifinal2 && ffr.semifinal2.status === 'final') finalCount++;
+  if (ffr.championship && ffr.championship.status === 'final') finalCount++;
+
   var html = '';
 
   html += '<div class="scoring-info">';
-  html += 'R64=1 | R32=2 | S16=3 | E8=5 | FF=8 | Champ=13';
+  html += finalCount + ' of 63 games complete | R64=1 | R32=2 | S16=3 | E8=5 | FF=8 | Champ=13';
   html += '</div>';
 
   html += '<div class="legend">';
