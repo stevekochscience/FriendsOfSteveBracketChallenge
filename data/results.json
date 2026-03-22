@@ -36,7 +36,7 @@
       ],
       "round2": [
         null,
-        { "winner": "Vanderbilt", "loser": "Nebraska", "score": "58-55", "status": "final" },
+        { "winner": "Nebraska", "loser": "Vanderbilt", "score": "74-72", "status": "final" },
         { "winner": "Illinois", "loser": "VCU", "score": "76-55", "status": "final" },
         { "winner": "Houston", "loser": "Texas A&M", "score": "88-57", "status": "final" }
       ],
