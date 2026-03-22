@@ -585,25 +585,38 @@ function getPerfectRegions(picks, results, eliminated) {
     var rp = picks.regions[reg];
     var perfect = true;
     var played = 0;
+    var g, pick, j2, j3;
+
+    /* R1 */
     for (var j = 0; j < 8; j++) {
-      var g = rr.round1[j];
-      var pick = rp.round1[j];
-      if (g && g.status === 'final') {
-        played++;
-        if (g.winner !== pick) { perfect = false; break; }
-      } else {
-        if (eliminated[pick]) { perfect = false; break; }
-      }
+      g = rr.round1[j]; pick = rp.round1[j];
+      if (g && g.status === 'final') { played++; if (g.winner !== pick) { perfect = false; break; } }
+      else { if (eliminated[pick]) { perfect = false; break; } }
     }
     if (!perfect) continue;
-    var rounds = ['round2', 'sweet16'];
-    for (var k = 0; k < rounds.length; k++) {
-      for (var m = 0; m < rp[rounds[k]].length; m++) {
-        if (eliminated[rp[rounds[k]][m]]) perfect = false;
-      }
+
+    /* R2 */
+    for (j2 = 0; j2 < 4; j2++) {
+      g = rr.round2[j2]; pick = rp.round2[j2];
+      if (g && g.status === 'final') { played++; if (g.winner !== pick) { perfect = false; break; } }
+      else { if (eliminated[pick]) { perfect = false; break; } }
     }
-    if (eliminated[rp.elite8]) perfect = false;
-    if (perfect) perfList.push(REGION_NAMES[reg] + ' (' + played + '/8)');
+    if (!perfect) continue;
+
+    /* S16 */
+    for (j3 = 0; j3 < 2; j3++) {
+      g = rr.sweet16[j3]; pick = rp.sweet16[j3];
+      if (g && g.status === 'final') { played++; if (g.winner !== pick) { perfect = false; break; } }
+      else { if (eliminated[pick]) { perfect = false; break; } }
+    }
+    if (!perfect) continue;
+
+    /* E8 */
+    g = rr.elite8; pick = rp.elite8;
+    if (g && g.status === 'final') { played++; if (g.winner !== pick) perfect = false; }
+    else { if (eliminated[pick]) perfect = false; }
+
+    if (perfect) perfList.push(REGION_NAMES[reg] + ' (' + played + '/15)');
   }
   return perfList;
 }
