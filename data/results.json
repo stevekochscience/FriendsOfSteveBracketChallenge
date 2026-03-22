@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-03-21T20:00:00",
+  "last_updated": "2026-03-21T23:30:00",
   "source": "ESPN Scoreboard",
   "scoring": [1, 2, 3, 5, 8, 13],
   "results": {
@@ -36,8 +36,8 @@
       ],
       "round2": [
         null,
-        null,
-        null,
+        { "winner": "Vanderbilt", "loser": "Nebraska", "score": "58-55", "status": "final" },
+        { "winner": "Illinois", "loser": "VCU", "score": "76-55", "status": "final" },
         { "winner": "Houston", "loser": "Texas A&M", "score": "88-57", "status": "final" }
       ],
       "sweet16": [null, null],
@@ -56,7 +56,7 @@
       ],
       "round2": [
         null,
-        null,
+        { "winner": "Arkansas", "loser": "High Point", "score": "94-88", "status": "final" },
         { "winner": "Texas", "loser": "Gonzaga", "score": "57-54", "status": "final" },
         null
       ],
