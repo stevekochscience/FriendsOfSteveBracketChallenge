@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-03-21T23:30:00",
+  "last_updated": "2026-03-22T18:00:00",
   "source": "ESPN Scoreboard",
   "scoring": [1, 2, 3, 5, 8, 13],
   "results": {
@@ -58,7 +58,7 @@
         null,
         { "winner": "Arkansas", "loser": "High Point", "score": "94-88", "status": "final" },
         { "winner": "Texas", "loser": "Gonzaga", "score": "57-54", "status": "final" },
-        null
+        { "winner": "Purdue", "loser": "Miami", "score": "79-69", "status": "final" }
       ],
       "sweet16": [null, null],
       "elite8": null
@@ -78,7 +78,7 @@
         { "winner": "Michigan", "loser": "Saint Louis", "score": "95-72", "status": "final" },
         null,
         null,
-        null
+        { "winner": "Iowa St.", "loser": "Kentucky", "score": "82-63", "status": "final" }
       ],
       "sweet16": [null, null],
       "elite8": null
