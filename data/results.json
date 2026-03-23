@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-03-23T00:00:00",
+  "last_updated": "2026-03-23T01:00:00",
   "source": "ESPN Scoreboard",
   "scoring": [1, 2, 3, 5, 8, 13],
   "results": {
@@ -18,7 +18,7 @@
         { "winner": "Duke", "loser": "TCU", "score": "81-58", "status": "final" },
         { "winner": "St. John's", "loser": "Kansas", "score": "67-65", "status": "final" },
         { "winner": "MICHST", "loser": "Louisville", "score": "77-69", "status": "final" },
-        null
+        { "winner": "UConn", "loser": "UCLA", "score": "73-57", "status": "final" }
       ],
       "sweet16": [null, null],
       "elite8": null
@@ -55,7 +55,7 @@
         { "winner": "Purdue", "loser": "Queens", "score": "104-71", "status": "final" }
       ],
       "round2": [
-        null,
+        { "winner": "Arizona", "loser": "Utah St.", "score": "78-66", "status": "final" },
         { "winner": "Arkansas", "loser": "High Point", "score": "94-88", "status": "final" },
         { "winner": "Texas", "loser": "Gonzaga", "score": "57-54", "status": "final" },
         { "winner": "Purdue", "loser": "Miami", "score": "79-69", "status": "final" }
