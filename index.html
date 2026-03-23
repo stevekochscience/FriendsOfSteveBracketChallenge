@@ -1247,7 +1247,12 @@ function render(tournament, results, allPicks) {
     var simEntry = simByPid[PICK_FILES[st.idx]];
     if (simEntry) {
       var winColor = simStale ? '#888' : '#51cf66';
-      html += '<div class="card-winpct">Win probability: <strong style="color:' + winColor + '">' + simEntry.win_pct.toFixed(1) + '%</strong></div>';
+      var kpColor = simStale ? '#888' : '#4a9eff';
+      var winLine = 'Win%: <strong style="color:' + winColor + '">' + simEntry.win_pct.toFixed(1) + '%</strong>';
+      if (_simData.has_kenpom && simEntry.win_pct_kp !== null) {
+        winLine += ' <span style="color:#666;font-size:0.9em">|</span> KenPom: <strong style="color:' + kpColor + '">' + simEntry.win_pct_kp.toFixed(1) + '%</strong>';
+      }
+      html += '<div class="card-winpct">' + winLine + '</div>';
     }
 
     if (st.style) {
@@ -1286,7 +1291,11 @@ function render(tournament, results, allPicks) {
   html += '<table>';
   html += '<tr>';
   html += '<th>Rank</th><th>Name</th><th>Score</th><th>Max</th>';
-  if (_simData) { html += '<th' + (simStale ? ' title="Stale - run simulate.py"' : '') + '>Win%</th>'; }
+  if (_simData) {
+    var staleAttr = simStale ? ' title="Stale - run simulate.py"' : '';
+    html += '<th' + staleAttr + '>Win% (50/50)</th>';
+    if (_simData.has_kenpom) { html += '<th' + staleAttr + '>Win% (KenPom)</th>'; }
+  }
   html += '<th>Champion</th><th>Style Points</th><th>Award</th>';
   for (var h = 0; h < 6; h++) { html += '<th>' + ROUND_LABELS[h] + '</th>'; }
   html += '</tr>';
@@ -1301,8 +1310,12 @@ function render(tournament, results, allPicks) {
     html += '<td class="max-possible">' + st2.maxPossible + '</td>';
     if (_simData) {
       var simEntry2 = simByPid[PICK_FILES[st2.idx]];
-      var winPctStr = simEntry2 ? simEntry2.win_pct.toFixed(1) + '%' : '\u2014';
-      html += '<td style="color:' + (simStale ? '#888' : '#51cf66') + ';font-weight:700">' + winPctStr + '</td>';
+      var flatStr = simEntry2 ? simEntry2.win_pct.toFixed(1) + '%' : '\u2014';
+      html += '<td style="color:' + (simStale ? '#888' : '#51cf66') + ';font-weight:700">' + flatStr + '</td>';
+      if (_simData.has_kenpom) {
+        var kpStr = (simEntry2 && simEntry2.win_pct_kp !== null) ? simEntry2.win_pct_kp.toFixed(1) + '%' : '\u2014';
+        html += '<td style="color:' + (simStale ? '#888' : '#4a9eff') + ';font-weight:700">' + kpStr + '</td>';
+      }
     }
     var champClass2 = st2.champEliminated ? 'champ-dead' : 'champ-alive';
     var champDisplay2 = st2.champEliminated ? '\u274C ' + st2.champion : st2.champion;

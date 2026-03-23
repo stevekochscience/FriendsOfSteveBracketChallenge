@@ -1,4 +1,4 @@
-import json, os, itertools
+import json, os, sys, itertools
 from glob import glob
 from copy import deepcopy
 
@@ -6,9 +6,70 @@ DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
 SCORING = [1, 2, 3, 5, 8, 13]
 REGION_KEYS = ['east', 'south', 'west', 'midwest']
 
+# Manual overrides: our tournament.json name -> KenPom name
+KENPOM_NAME_MAP = {
+    'UConn':    'Connecticut',
+    'MICHST':   'Michigan St.',
+    'Iowa St.': 'Iowa State',
+    'St. John\'s': 'St. John\'s (NY)',
+    'Utah St.': 'Utah State',
+    'Texas A&M': 'Texas A&M',
+}
+
+# ── Data loading ──────────────────────────────────────────────────────────────
+
 def load_json(path):
     with open(path, encoding='utf-8') as f:
         return json.load(f)
+
+def load_kenpom():
+    """
+    Finds the most recent KenPom xlsx in the repo root. Returns:
+      { team_name: pythagorean_win_pct }
+    Pythagorean formula: ORtg^11.5 / (ORtg^11.5 + DRtg^11.5)
+    KenPom xlsx columns: B=team+seed, F=ORtg, H=DRtg (0-indexed: 1, 5, 7)
+    """
+    try:
+        import openpyxl
+    except ImportError:
+        print('WARNING: openpyxl not installed. Run: pip install openpyxl')
+        return None
+
+    xlsx_files = [f for f in glob(os.path.join(os.path.dirname(os.path.abspath(__file__)), '*.xlsx'))
+                  if not os.path.basename(f).startswith('~')]
+    if not xlsx_files:
+        print('WARNING: No KenPom xlsx found in repo root. KenPom simulation skipped.')
+        return None
+
+    xlsx_path = max(xlsx_files, key=os.path.getmtime)
+    print('KenPom source: ' + os.path.basename(xlsx_path))
+
+    wb = openpyxl.load_workbook(xlsx_path, data_only=True)
+    ws = wb.active
+    kenpom = {}
+    for row in ws.iter_rows(min_row=3, values_only=True):
+        if row[0] is None:
+            continue
+        raw = str(row[1]).replace('\xa0', ' ').strip()
+        # Strip trailing seed number if present
+        parts = raw.rsplit(' ', 1)
+        name = parts[0].strip() if len(parts) == 2 and parts[1].isdigit() else raw
+        try:
+            ortg, drtg = float(row[5]), float(row[7])
+        except (TypeError, ValueError):
+            continue
+        if ortg and drtg:
+            pyth = (ortg ** 11.5) / (ortg ** 11.5 + drtg ** 11.5)
+            kenpom[name] = pyth
+
+    # Apply name map overrides
+    for our_name, kenpom_name in KENPOM_NAME_MAP.items():
+        if kenpom_name in kenpom:
+            kenpom[our_name] = kenpom[kenpom_name]
+
+    return kenpom
+
+# ── Scoring helpers ───────────────────────────────────────────────────────────
 
 def get_eliminated(results):
     elim = set()
@@ -62,6 +123,8 @@ def score_picks(results, picks):
         if picks['champion'] == g['winner']: total += SCORING[5]
     return total
 
+# ── Simulation mechanics ──────────────────────────────────────────────────────
+
 def build_undecided(results):
     slots = []
     for key in REGION_KEYS:
@@ -78,44 +141,71 @@ def build_undecided(results):
             slots.append({'type': 'final_four', 'ff_slot': slot})
     return slots
 
-def get_region_round_teams(sim, key, round_name, idx):
-    rr = sim['results'][key]
-    if round_name == 'round2':
-        a = rr['round1'][idx * 2]['winner']
-        b = rr['round1'][idx * 2 + 1]['winner']
-    elif round_name == 'sweet16':
-        a = rr['round2'][idx * 2]['winner']
-        b = rr['round2'][idx * 2 + 1]['winner']
-    elif round_name == 'elite8':
-        a = rr['sweet16'][0]['winner']
-        b = rr['sweet16'][1]['winner']
-    return a, b
-
-def get_ff_teams(sim, ff_slot):
-    sm = sim['final_four']
-    rr = sim['results']
-    if ff_slot == 'semifinal1':
-        return rr['east']['elite8']['winner'], rr['south']['elite8']['winner']
-    elif ff_slot == 'semifinal2':
-        return rr['west']['elite8']['winner'], rr['midwest']['elite8']['winner']
-    elif ff_slot == 'championship':
-        return sm['semifinal1']['winner'], sm['semifinal2']['winner']
-
-def apply_outcome(sim, slot, bit):
+def get_contestants(sim, slot):
+    """Return (teamA, teamB) for an undecided slot given current sim state."""
     if slot['type'] == 'region':
         key, rd, idx = slot['region'], slot['round'], slot['index']
-        a, b = get_region_round_teams(sim, key, rd, idx)
-        winner, loser = (a, b) if bit == 0 else (b, a)
-        game = {'winner': winner, 'loser': loser, 'score': None, 'status': 'final'}
+        rr = sim['results'][key]
+        if rd == 'round2':
+            return rr['round1'][idx * 2]['winner'], rr['round1'][idx * 2 + 1]['winner']
+        elif rd == 'sweet16':
+            return rr['round2'][idx * 2]['winner'], rr['round2'][idx * 2 + 1]['winner']
+        elif rd == 'elite8':
+            return rr['sweet16'][0]['winner'], rr['sweet16'][1]['winner']
+    else:
+        ff_slot = slot['ff_slot']
+        sm = sim['final_four']
+        rr = sim['results']
+        if ff_slot == 'semifinal1':
+            return rr['east']['elite8']['winner'], rr['south']['elite8']['winner']
+        elif ff_slot == 'semifinal2':
+            return rr['west']['elite8']['winner'], rr['midwest']['elite8']['winner']
+        elif ff_slot == 'championship':
+            return sm['semifinal1']['winner'], sm['semifinal2']['winner']
+
+def apply_outcome(sim, slot, winner, loser):
+    game = {'winner': winner, 'loser': loser, 'score': None, 'status': 'final'}
+    if slot['type'] == 'region':
+        key, rd, idx = slot['region'], slot['round'], slot['index']
         if rd == 'elite8':
             sim['results'][key]['elite8'] = game
         else:
             sim['results'][key][rd][idx] = game
     else:
-        ff_slot = slot['ff_slot']
-        a, b = get_ff_teams(sim, ff_slot)
-        winner, loser = (a, b) if bit == 0 else (b, a)
-        sim['final_four'][ff_slot] = {'winner': winner, 'loser': loser, 'score': None, 'status': 'final'}
+        sim['final_four'][slot['ff_slot']] = game
+
+def log5(pA, pB):
+    """P(A beats B) given Pythagorean win percentages."""
+    denom = pA + pB - 2 * pA * pB
+    if denom == 0:
+        return 0.5
+    return (pA - pA * pB) / denom
+
+def get_win_prob(teamA, teamB, kenpom):
+    if kenpom is None or teamA not in kenpom or teamB not in kenpom:
+        return 0.5
+    return log5(kenpom[teamA], kenpom[teamB])
+
+def count_final_games(results):
+    count = 0
+    for key in REGION_KEYS:
+        rr = results['results'][key]
+        for rd, size in [('round1', 8), ('round2', 4), ('sweet16', 2)]:
+            for i in range(size):
+                g = rr[rd][i]
+                if g and g['status'] == 'final':
+                    count += 1
+        g = rr['elite8']
+        if g and g['status'] == 'final':
+            count += 1
+    ff = results['final_four']
+    for slot in ('semifinal1', 'semifinal2', 'championship'):
+        g = ff[slot]
+        if g and g['status'] == 'final':
+            count += 1
+    return count
+
+# ── Main ──────────────────────────────────────────────────────────────────────
 
 def main():
     results = load_json(os.path.join(DATA_DIR, 'results.json'))
@@ -123,72 +213,105 @@ def main():
     all_picks = [load_json(p) for p in pick_files]
     names = [p['participant'] for p in all_picks]
 
+    kenpom = load_kenpom()
+
+    # --check-names: verify alive teams resolve in KenPom data
+    if '--check-names' in sys.argv:
+        # Alive teams = all R2 winners (they are the Sweet 16 field)
+        alive = set()
+        for key in REGION_KEYS:
+            rr = results['results'][key]
+            for i in range(4):
+                g = rr['round2'][i]
+                if g and g['status'] == 'final':
+                    alive.add(g['winner'])
+        print('\nName check against KenPom:')
+        for team in sorted(alive):
+            status = 'OK  ' if (kenpom and team in kenpom) else '??  '
+            print(status + team)
+        sys.exit(0)
+
     base_scores = {p['participant']: score_picks(results, p) for p in all_picks}
     undecided = build_undecided(results)
     n = len(undecided)
     total_scenarios = 2 ** n
+    final_count = count_final_games(results)
 
-    # Count final games for staleness detection
-    final_count = 0
-    for key in REGION_KEYS:
-        rr = results['results'][key]
-        for rd, size in [('round1', 8), ('round2', 4), ('sweet16', 2)]:
-            for i in range(size):
-                g = rr[rd][i]
-                if g and g['status'] == 'final':
-                    final_count += 1
-        g = rr['elite8']
-        if g and g['status'] == 'final':
-            final_count += 1
-    ff = results['final_four']
-    for slot in ('semifinal1', 'semifinal2', 'championship'):
-        g = ff[slot]
-        if g and g['status'] == 'final':
-            final_count += 1
+    print('Games complete: {}  |  Remaining: {}  |  Scenarios: {:,}'.format(
+        final_count, n, total_scenarios))
 
-    print('Games complete: {}  |  Remaining: {}  |  Scenarios: {:,}'.format(final_count, n, total_scenarios))
-
-    win_count  = {name: 0 for name in names}
-    top2_count = {name: 0 for name in names}
+    win_flat    = {name: 0   for name in names}
+    win_kenpom  = {name: 0.0 for name in names}
+    top2_flat   = {name: 0   for name in names}
+    top2_kenpom = {name: 0.0 for name in names}
 
     for bits in itertools.product(range(2), repeat=n):
         sim = deepcopy(results)
+        scenario_prob = 1.0
+
         for i, slot in enumerate(undecided):
-            apply_outcome(sim, slot, bits[i])
+            a, b = get_contestants(sim, slot)
+            if bits[i] == 0:
+                winner, loser = a, b
+                p = get_win_prob(a, b, kenpom)
+            else:
+                winner, loser = b, a
+                p = get_win_prob(b, a, kenpom)
+            apply_outcome(sim, slot, winner, loser)
+            scenario_prob *= p
+
         scores = {p['participant']: score_picks(sim, p) for p in all_picks}
         max_score = max(scores.values())
         sorted_scores = sorted(scores.values(), reverse=True)
         second_score = sorted_scores[1] if len(sorted_scores) > 1 else -1
+
         for name, s in scores.items():
             if s == max_score:
-                win_count[name] += 1
+                win_flat[name]   += 1
+                win_kenpom[name] += scenario_prob
             if s >= second_score:
-                top2_count[name] += 1
+                top2_flat[name]   += 1
+                top2_kenpom[name] += scenario_prob
+
+    kenpom_total   = sum(win_kenpom.values())
+    top2_kp_total  = sum(top2_kenpom.values())
 
     sorted_names = sorted(names, key=lambda name: base_scores[name], reverse=True)
-    print('\n{:<14} {:>7} {:>10} {:>10}'.format('Participant', 'Score', 'Win%', 'Top2%'))
-    print('-' * 45)
-    for name in sorted_names:
-        print('{:<14} {:>7} {:>9.1f}% {:>9.1f}%'.format(
-            name, base_scores[name],
-            100.0 * win_count[name] / total_scenarios,
-            100.0 * top2_count[name] / total_scenarios))
+    if kenpom:
+        print('\n{:<14} {:>7} {:>10} {:>12}'.format('Participant', 'Score', 'Win%(50/50)', 'Win%(KenPom)'))
+        print('-' * 50)
+        for name in sorted_names:
+            kp = 100.0 * win_kenpom[name] / kenpom_total if kenpom_total > 0 else 0
+            print('{:<14} {:>7} {:>9.1f}%  {:>10.1f}%'.format(
+                name, base_scores[name],
+                100.0 * win_flat[name] / total_scenarios, kp))
+    else:
+        print('\n{:<14} {:>7} {:>10}'.format('Participant', 'Score', 'Win%'))
+        print('-' * 35)
+        for name in sorted_names:
+            print('{:<14} {:>7} {:>9.1f}%'.format(
+                name, base_scores[name],
+                100.0 * win_flat[name] / total_scenarios))
 
     sim_output = {
         'computed_at_game_count': final_count,
         'total_scenarios': total_scenarios,
+        'has_kenpom': kenpom is not None,
         'participants': []
     }
     for p in all_picks:
         name = p['participant']
         pid = os.path.splitext(os.path.basename(pick_files[all_picks.index(p)]))[0]
-        sim_output['participants'].append({
+        entry = {
             'name': name,
             'pid': pid,
             'current_score': base_scores[name],
-            'win_pct': round(100.0 * win_count[name] / total_scenarios, 1),
-            'top2_pct': round(100.0 * top2_count[name] / total_scenarios, 1)
-        })
+            'win_pct':    round(100.0 * win_flat[name]   / total_scenarios, 1),
+            'top2_pct':   round(100.0 * top2_flat[name]  / total_scenarios, 1),
+            'win_pct_kp':  round(100.0 * win_kenpom[name]  / kenpom_total,  1) if kenpom_total  > 0 else None,
+            'top2_pct_kp': round(100.0 * top2_kenpom[name] / top2_kp_total, 1) if top2_kp_total > 0 else None,
+        }
+        sim_output['participants'].append(entry)
 
     out_path = os.path.join(DATA_DIR, 'results_sim.json')
     with open(out_path, 'w', encoding='utf-8') as f:
