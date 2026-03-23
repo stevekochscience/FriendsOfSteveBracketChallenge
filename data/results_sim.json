@@ -1,0 +1,90 @@
+{
+  "computed_at_game_count": 48,
+  "total_scenarios": 32768,
+  "participants": [
+    {
+      "name": "Brady",
+      "pid": "brady",
+      "current_score": 52,
+      "win_pct": 33.6,
+      "top2_pct": 58.8
+    },
+    {
+      "name": "Gracie",
+      "pid": "gracie",
+      "current_score": 38,
+      "win_pct": 0.1,
+      "top2_pct": 0.4
+    },
+    {
+      "name": "Kristy",
+      "pid": "kristy",
+      "current_score": 46,
+      "win_pct": 9.4,
+      "top2_pct": 24.8
+    },
+    {
+      "name": "Kylan",
+      "pid": "kylan",
+      "current_score": 42,
+      "win_pct": 7.8,
+      "top2_pct": 15.6
+    },
+    {
+      "name": "Larry",
+      "pid": "larry",
+      "current_score": 40,
+      "win_pct": 0.0,
+      "top2_pct": 0.0
+    },
+    {
+      "name": "Laura",
+      "pid": "laura",
+      "current_score": 39,
+      "win_pct": 0.0,
+      "top2_pct": 0.0
+    },
+    {
+      "name": "Lisa",
+      "pid": "lisa",
+      "current_score": 40,
+      "win_pct": 0.9,
+      "top2_pct": 2.7
+    },
+    {
+      "name": "Molly",
+      "pid": "molly",
+      "current_score": 44,
+      "win_pct": 5.7,
+      "top2_pct": 16.8
+    },
+    {
+      "name": "Peggy",
+      "pid": "peggy",
+      "current_score": 46,
+      "win_pct": 24.7,
+      "top2_pct": 31.3
+    },
+    {
+      "name": "Sammy",
+      "pid": "sammy",
+      "current_score": 32,
+      "win_pct": 0.0,
+      "top2_pct": 0.0
+    },
+    {
+      "name": "Shawn",
+      "pid": "shawn",
+      "current_score": 30,
+      "win_pct": 0.0,
+      "top2_pct": 0.6
+    },
+    {
+      "name": "Steve",
+      "pid": "steve",
+      "current_score": 52,
+      "win_pct": 35.8,
+      "top2_pct": 79.5
+    }
+  ]
+}

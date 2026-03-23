@@ -34,6 +34,11 @@ h1 {
   font-size: 0.75em;
   margin-bottom: 16px;
 }
+.card-winpct {
+  font-size: 0.78em;
+  color: #888;
+  padding: 2px 10px 0;
+}
 .scoring-info {
   max-width: 1100px;
   margin: 0 auto 12px;
@@ -448,6 +453,7 @@ var STYLE_MAP = {
 
 var _tournament, _results, _allPicks, _eliminated;
 var _realResults; /* always the unmodified results */
+var _simData = null; /* results_sim.json output, null if not loaded */
 var _whatIfStack = []; /* [{team:'Illinois', outcome:'championship'}, ...] */
 var _whatIfOpen = false;
 
@@ -1195,6 +1201,16 @@ function render(tournament, results, allPicks) {
   if (ffr.semifinal2 && ffr.semifinal2.status === 'final') finalCount++;
   if (ffr.championship && ffr.championship.status === 'final') finalCount++;
 
+  var simByPid = {};
+  var simStale = false;
+  if (_simData && _simData.participants) {
+    for (var si = 0; si < _simData.participants.length; si++) {
+      var sp = _simData.participants[si];
+      simByPid[sp.pid] = sp;
+    }
+    if (_simData.computed_at_game_count !== finalCount) simStale = true;
+  }
+
   var html = '';
 
   html += '<div class="scoring-info">';
@@ -1227,6 +1243,12 @@ function render(tournament, results, allPicks) {
     var champIcon = st.champEliminated ? '\u274C ' : '\uD83C\uDFC6 ';
     html += '<span class="card-champ ' + champClass + '">' + champIcon + st.champion + '</span>';
     html += '</div>';
+
+    var simEntry = simByPid[PICK_FILES[st.idx]];
+    if (simEntry) {
+      var winColor = simStale ? '#888' : '#51cf66';
+      html += '<div class="card-winpct">Win probability: <strong style="color:' + winColor + '">' + simEntry.win_pct.toFixed(1) + '%</strong></div>';
+    }
 
     if (st.style) {
       html += '<div class="card-style">"' + st.style + '"</div>';
@@ -1263,7 +1285,9 @@ function render(tournament, results, allPicks) {
   html += '<div class="standings-table">';
   html += '<table>';
   html += '<tr>';
-  html += '<th>Rank</th><th>Name</th><th>Score</th><th>Max</th><th>Champion</th><th>Style Points</th><th>Award</th>';
+  html += '<th>Rank</th><th>Name</th><th>Score</th><th>Max</th>';
+  if (_simData) { html += '<th' + (simStale ? ' title="Stale - run simulate.py"' : '') + '>Win%</th>'; }
+  html += '<th>Champion</th><th>Style Points</th><th>Award</th>';
   for (var h = 0; h < 6; h++) { html += '<th>' + ROUND_LABELS[h] + '</th>'; }
   html += '</tr>';
 
@@ -1275,6 +1299,11 @@ function render(tournament, results, allPicks) {
     html += '<td class="name-cell" onclick="showDetail(' + st2.idx + ')">' + st2.name + '</td>';
     html += '<td class="score">' + st2.score + '</td>';
     html += '<td class="max-possible">' + st2.maxPossible + '</td>';
+    if (_simData) {
+      var simEntry2 = simByPid[PICK_FILES[st2.idx]];
+      var winPctStr = simEntry2 ? simEntry2.win_pct.toFixed(1) + '%' : '\u2014';
+      html += '<td style="color:' + (simStale ? '#888' : '#51cf66') + ';font-weight:700">' + winPctStr + '</td>';
+    }
     var champClass2 = st2.champEliminated ? 'champ-dead' : 'champ-alive';
     var champDisplay2 = st2.champEliminated ? '\u274C ' + st2.champion : st2.champion;
     html += '<td class="' + champClass2 + '">' + champDisplay2 + '</td>';
@@ -1289,6 +1318,13 @@ function render(tournament, results, allPicks) {
   }
 
   html += '</table></div>';
+  if (_simData) {
+    if (simStale) {
+      html += '<div style="font-size:0.75em;color:#ff6b35;text-align:center;margin-top:6px">\u26A0 Win% computed after game ' + _simData.computed_at_game_count + ' \u2014 run simulate.py to update</div>';
+    } else {
+      html += '<div style="font-size:0.75em;color:#888;text-align:center;margin-top:6px">Win% from ' + _simData.total_scenarios.toLocaleString() + ' simulated scenarios \u2014 rerun simulate.py after each update</div>';
+    }
+  }
   html += '<div class="updated">Last updated: ' + results.last_updated + ' | Source: ' + results.source + '</div>';
   document.getElementById('output').innerHTML = html;
 }
@@ -1301,10 +1337,12 @@ function run() {
 
   Promise.all([
     fetch('data/tournament.json' + bust).then(function(r) { return r.json(); }),
-    fetch('data/results.json' + bust).then(function(r) { return r.json(); })
+    fetch('data/results.json' + bust).then(function(r) { return r.json(); }),
+    fetch('data/results_sim.json' + bust).then(function(r) { return r.json(); }).catch(function() { return null; })
   ]).then(function(baseData) {
     tournamentData = baseData[0];
     resultsData = baseData[1];
+    _simData = baseData[2];
     var fetches = [];
     for (i = 0; i < PICK_FILES.length; i++) {
       fetches.push(
