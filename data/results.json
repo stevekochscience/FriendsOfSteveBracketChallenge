@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-03-22T23:30:00",
+  "last_updated": "2026-03-23T00:00:00",
   "source": "ESPN Scoreboard",
   "scoring": [1, 2, 3, 5, 8, 13],
   "results": {
@@ -76,7 +76,7 @@
       ],
       "round2": [
         { "winner": "Michigan", "loser": "Saint Louis", "score": "95-72", "status": "final" },
-        null,
+        { "winner": "Alabama", "loser": "Texas Tech", "score": "82-75", "status": "final" },
         { "winner": "Tennessee", "loser": "Virginia", "score": "79-72", "status": "final" },
         { "winner": "Iowa St.", "loser": "Kentucky", "score": "82-63", "status": "final" }
       ],
