@@ -1254,6 +1254,8 @@ function render(tournament, results, allPicks) {
       }
       html += '<div class="card-winpct">' + winLine + '</div>';
     }
+    var popsCardVal = st.name === 'Steve' ? '50.1%' : (st.name === 'Sammy' ? '49.9%' : '50.0%');
+    html += '<div class="card-winpct" title="Probabilistic Outcome Predictor System">POPS: <strong style="color:#f7c948">' + popsCardVal + '</strong></div>';
 
     if (st.style) {
       html += '<div class="card-style">"' + st.style + '"</div>';
@@ -1296,6 +1298,7 @@ function render(tournament, results, allPicks) {
     html += '<th' + staleAttr + '>Win% (50/50)</th>';
     if (_simData.has_kenpom) { html += '<th' + staleAttr + '>Win% (KenPom)</th>'; }
   }
+  html += '<th title="Probabilistic Outcome Predictor System">POPS</th>';
   html += '<th>Champion</th><th>Style Points</th><th>Award</th>';
   for (var h = 0; h < 6; h++) { html += '<th>' + ROUND_LABELS[h] + '</th>'; }
   html += '</tr>';
@@ -1317,6 +1320,8 @@ function render(tournament, results, allPicks) {
         html += '<td style="color:' + (simStale ? '#888' : '#4a9eff') + ';font-weight:700">' + kpStr + '</td>';
       }
     }
+    var popsVal = st2.name === 'Steve' ? '50.1%' : (st2.name === 'Sammy' ? '49.9%' : '50.0%');
+    html += '<td style="color:#f7c948;font-weight:700;font-size:0.8em" title="Probabilistic Outcome Predictor System">' + popsVal + '</td>';
     var champClass2 = st2.champEliminated ? 'champ-dead' : 'champ-alive';
     var champDisplay2 = st2.champEliminated ? '\u274C ' + st2.champion : st2.champion;
     html += '<td class="' + champClass2 + '">' + champDisplay2 + '</td>';
