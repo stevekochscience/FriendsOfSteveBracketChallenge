@@ -1272,9 +1272,8 @@ function render(tournament, results, allPicks) {
     } else {
       html += '<div class="card-winpct">SAM: <span style="color:#888">computing <span class="sam-dots"><span>.</span><span>.</span><span>.</span></span></span></div>';
     }
-    if (simEntry && _simData.has_kenpom && simEntry.win_pct_kp !== null) {
-      var expWin = (simEntry.win_pct_kp / 100) * 75 + ((simEntry.top2_pct_kp - simEntry.win_pct_kp) / 100) * 25;
-      html += '<div class="card-winpct">Expected $$: <strong style="color:#4ade80">$' + expWin.toFixed(2) + '</strong></div>';
+    if (simEntry && _simData.has_kenpom && simEntry.place_pct_kp !== null) {
+      html += '<div class="card-winpct">Place%: <strong style="color:#a78bfa">' + simEntry.place_pct_kp.toFixed(1) + '%</strong> <span style="color:#666;font-size:0.9em">|</span> Expected $$: <strong style="color:#4ade80">$' + simEntry.expected_winnings.toFixed(2) + '</strong></div>';
     }
 
     if (st.style) {
@@ -1318,6 +1317,7 @@ function render(tournament, results, allPicks) {
     html += '<th' + staleAttr + '>Win% (50/50)</th>';
     if (_simData.has_kenpom) {
       html += '<th' + staleAttr + '>Win% (KenPom)</th>';
+      html += '<th' + staleAttr + ' title="Chance of finishing 1st or 2nd">Place%</th>';
       html += '<th' + staleAttr + ' title="1st=$75, 2nd=$25">Expected $$</th>';
     }
   }
@@ -1342,11 +1342,9 @@ function render(tournament, results, allPicks) {
       if (_simData.has_kenpom) {
         var kpStr = (simEntry2 && simEntry2.win_pct_kp !== null) ? simEntry2.win_pct_kp.toFixed(1) + '%' : '\u2014';
         html += '<td style="color:' + (simStale ? '#888' : '#4a9eff') + ';font-weight:700">' + kpStr + '</td>';
-        var expDollar = '\u2014';
-        if (simEntry2 && simEntry2.win_pct_kp !== null && simEntry2.top2_pct_kp !== null) {
-          var ev = (simEntry2.win_pct_kp / 100) * 75 + ((simEntry2.top2_pct_kp - simEntry2.win_pct_kp) / 100) * 25;
-          expDollar = '$' + ev.toFixed(2);
-        }
+        var placeStr = (simEntry2 && simEntry2.place_pct_kp !== null) ? simEntry2.place_pct_kp.toFixed(1) + '%' : '\u2014';
+        html += '<td style="color:' + (simStale ? '#888' : '#a78bfa') + ';font-weight:700">' + placeStr + '</td>';
+        var expDollar = (simEntry2 && simEntry2.expected_winnings !== null) ? '$' + simEntry2.expected_winnings.toFixed(2) : '\u2014';
         html += '<td style="color:' + (simStale ? '#888' : '#4ade80') + ';font-weight:700">' + expDollar + '</td>';
       }
     }

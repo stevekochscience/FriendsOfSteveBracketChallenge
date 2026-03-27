@@ -242,8 +242,10 @@ def main():
 
     win_flat    = {name: 0   for name in names}
     win_kenpom  = {name: 0.0 for name in names}
-    top2_flat   = {name: 0   for name in names}
-    top2_kenpom = {name: 0.0 for name in names}
+    place_flat  = {name: 0   for name in names}
+    place_kenpom = {name: 0.0 for name in names}
+    ev_flat     = {name: 0.0 for name in names}
+    ev_kenpom   = {name: 0.0 for name in names}
 
     for bits in itertools.product(range(2), repeat=n):
         sim = deepcopy(results)
@@ -261,30 +263,58 @@ def main():
             scenario_prob *= p
 
         scores = {p['participant']: score_picks(sim, p) for p in all_picks}
-        max_score = max(scores.values())
-        sorted_scores = sorted(scores.values(), reverse=True)
-        second_score = sorted_scores[1] if len(sorted_scores) > 1 else -1
+        sorted_unique = sorted(set(scores.values()), reverse=True)
+        max_score = sorted_unique[0]
+        second_score = sorted_unique[1] if len(sorted_unique) > 1 else max_score
 
-        for name, s in scores.items():
-            if s == max_score:
-                win_flat[name]   += 1
-                win_kenpom[name] += scenario_prob
-            if s >= second_score:
-                top2_flat[name]   += 1
-                top2_kenpom[name] += scenario_prob
+        first_place  = [nm for nm, s in scores.items() if s == max_score]
+        second_place = [nm for nm, s in scores.items() if s == second_score and s < max_score]
 
-    kenpom_total   = sum(win_kenpom.values())
-    top2_kp_total  = sum(top2_kenpom.values())
+        for nm in first_place:
+            win_flat[nm]   += 1
+            win_kenpom[nm] += scenario_prob
+            place_flat[nm]  += 1
+            place_kenpom[nm] += scenario_prob
+
+        for nm in second_place:
+            place_flat[nm]  += 1
+            place_kenpom[nm] += scenario_prob
+
+        # Prize distribution: 1st=$75, 2nd=$25
+        if not second_place:
+            # Everyone tied for 1st splits the full $100
+            share = 100.0 / len(first_place)
+            for nm in first_place:
+                ev_flat[nm]   += share
+                ev_kenpom[nm] += scenario_prob * share
+        else:
+            first_share = 75.0 / len(first_place)
+            second_share = 25.0 / len(second_place)
+            for nm in first_place:
+                ev_flat[nm]   += first_share
+                ev_kenpom[nm] += scenario_prob * first_share
+            for nm in second_place:
+                ev_flat[nm]   += second_share
+                ev_kenpom[nm] += scenario_prob * second_share
+
+    total_prob = sum(win_kenpom[nm] for nm in names) + sum(
+        place_kenpom[nm] - win_kenpom[nm] for nm in names)
+    # Normalization: use sum of scenario_probs via EV (always sums to $100)
+    ev_kp_total = sum(ev_kenpom.values())
 
     sorted_names = sorted(names, key=lambda name: base_scores[name], reverse=True)
     if kenpom:
-        print('\n{:<14} {:>7} {:>10} {:>12}'.format('Participant', 'Score', 'Win%(50/50)', 'Win%(KenPom)'))
-        print('-' * 50)
+        print('\n{:<14} {:>7} {:>10} {:>12} {:>10} {:>10}'.format(
+            'Participant', 'Score', 'Win%(50/50)', 'Win%(KenPom)', 'Place%KP', 'E[$$]KP'))
+        print('-' * 70)
         for name in sorted_names:
-            kp = 100.0 * win_kenpom[name] / kenpom_total if kenpom_total > 0 else 0
-            print('{:<14} {:>7} {:>9.1f}%  {:>10.1f}%'.format(
+            kp_win = 100.0 * win_kenpom[name] / ev_kp_total * 100 if ev_kp_total > 0 else 0
+            kp_place = 100.0 * place_kenpom[name] / ev_kp_total * 100 if ev_kp_total > 0 else 0
+            ev_dollars = ev_kenpom[name] / ev_kp_total * 100 if ev_kp_total > 0 else 0
+            print('{:<14} {:>7} {:>9.1f}%  {:>10.1f}%  {:>8.1f}%   ${:>6.2f}'.format(
                 name, base_scores[name],
-                100.0 * win_flat[name] / total_scenarios, kp))
+                100.0 * win_flat[name] / total_scenarios,
+                kp_win, kp_place, ev_dollars))
     else:
         print('\n{:<14} {:>7} {:>10}'.format('Participant', 'Score', 'Win%'))
         print('-' * 35)
@@ -307,9 +337,10 @@ def main():
             'pid': pid,
             'current_score': base_scores[name],
             'win_pct':    round(100.0 * win_flat[name]   / total_scenarios, 1),
-            'top2_pct':   round(100.0 * top2_flat[name]  / total_scenarios, 1),
-            'win_pct_kp':  round(100.0 * win_kenpom[name]  / kenpom_total,  1) if kenpom_total  > 0 else None,
-            'top2_pct_kp': round(100.0 * top2_kenpom[name] / top2_kp_total, 1) if top2_kp_total > 0 else None,
+            'place_pct':  round(100.0 * place_flat[name]  / total_scenarios, 1),
+            'win_pct_kp':  round(100.0 * win_kenpom[name]  / ev_kp_total * 100, 1) if ev_kp_total > 0 else None,
+            'place_pct_kp': round(100.0 * place_kenpom[name] / ev_kp_total * 100, 1) if ev_kp_total > 0 else None,
+            'expected_winnings': round(ev_kenpom[name] / ev_kp_total * 100, 2) if ev_kp_total > 0 else None,
         }
         sim_output['participants'].append(entry)
 
