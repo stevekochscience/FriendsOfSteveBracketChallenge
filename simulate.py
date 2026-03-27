@@ -212,9 +212,17 @@ def get_picks_for_slot(picks, slot):
         elif ff_slot == 'championship':
             return picks['champion']
 
+ROUND_DEPTH = {
+    'sweet16': 0, 'elite8': 1,
+    'semifinal1': 2, 'semifinal2': 2,
+    'championship': 3,
+}
+
 def describe_path(sim_results, undecided, picks):
-    """Describe the outcomes that match this participant's picks (the wins they need)."""
-    parts = []
+    """Describe the outcomes that match this participant's picks (the wins they need).
+    Deduplicates per team (keeps deepest run only) and orders deepest first."""
+    # Collect all matching picks with their round depth
+    team_best = {}  # team -> (depth, label)
     for slot in undecided:
         pick = get_picks_for_slot(picks, slot)
         if slot['type'] == 'region':
@@ -223,15 +231,23 @@ def describe_path(sim_results, undecided, picks):
                 winner = sim_results['results'][key]['elite8']['winner']
             else:
                 winner = sim_results['results'][key][rd][idx]['winner']
+            round_key = rd
         else:
-            winner = sim_results['final_four'][slot['ff_slot']]['winner']
-
-        label = ROUND_LABELS.get(
-            slot.get('ff_slot') or slot.get('round'), '')
+            ff_slot = slot['ff_slot']
+            winner = sim_results['final_four'][ff_slot]['winner']
+            round_key = ff_slot
 
         if winner == pick:
-            parts.append(pick + ' ' + label)
-    return ', '.join(parts) if parts else None
+            depth = ROUND_DEPTH.get(round_key, -1)
+            label = ROUND_LABELS.get(round_key, round_key)
+            if pick not in team_best or depth > team_best[pick][0]:
+                team_best[pick] = (depth, label)
+
+    if not team_best:
+        return None
+    # Sort by depth descending (deepest run first)
+    sorted_teams = sorted(team_best.items(), key=lambda x: -x[1][0])
+    return ', '.join(team + ' ' + label for team, (depth, label) in sorted_teams)
 
 def count_final_games(results):
     count = 0

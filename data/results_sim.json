@@ -12,7 +12,7 @@
       "win_pct_kp": 28.6,
       "place_pct_kp": 56.3,
       "expected_winnings": 21.86,
-      "money_path": "Duke wins Sweet 16, MICHST wins Sweet 16, Duke wins region, Arizona wins region, Michigan wins Sweet 16, Iowa St. wins Sweet 16, Michigan wins region, Duke wins Final Four, Michigan wins Final Four, Duke wins Championship"
+      "money_path": "Duke wins Championship, Michigan wins Final Four, Arizona wins region, MICHST wins Sweet 16, Iowa St. wins Sweet 16"
     },
     {
       "name": "Gracie",
@@ -23,7 +23,7 @@
       "win_pct_kp": 0.0,
       "place_pct_kp": 0.2,
       "expected_winnings": 0.06,
-      "money_path": "Duke wins Sweet 16, UConn wins Sweet 16, Duke wins region, Michigan wins Sweet 16, Tennessee wins Sweet 16, Michigan wins region, Michigan wins Final Four, Michigan wins Championship"
+      "money_path": "Michigan wins Championship, Duke wins region, UConn wins Sweet 16, Tennessee wins Sweet 16"
     },
     {
       "name": "Kristy",
@@ -34,7 +34,7 @@
       "win_pct_kp": 28.4,
       "place_pct_kp": 49.5,
       "expected_winnings": 19.65,
-      "money_path": "Duke wins Sweet 16, MICHST wins Sweet 16, Duke wins region, Arizona wins region, Michigan wins Sweet 16, Iowa St. wins Sweet 16, Michigan wins region, Duke wins Final Four, Michigan wins Final Four"
+      "money_path": "Duke wins Final Four, Michigan wins Final Four, Arizona wins region, MICHST wins Sweet 16, Iowa St. wins Sweet 16"
     },
     {
       "name": "Kylan",
@@ -45,7 +45,7 @@
       "win_pct_kp": 0.0,
       "place_pct_kp": 9.9,
       "expected_winnings": 2.0,
-      "money_path": "MICHST wins Sweet 16, MICHST wins region, Arizona wins region, Michigan wins Sweet 16, Iowa St. wins Sweet 16, Michigan wins region, Arizona wins Final Four, Arizona wins Championship"
+      "money_path": "Arizona wins Championship, MICHST wins region, Michigan wins region, Iowa St. wins Sweet 16"
     },
     {
       "name": "Larry",
@@ -67,7 +67,7 @@
       "win_pct_kp": 0.0,
       "place_pct_kp": 0.0,
       "expected_winnings": 0.01,
-      "money_path": "Duke wins Sweet 16, MICHST wins Sweet 16, Duke wins region, Michigan wins Sweet 16, Duke wins Final Four"
+      "money_path": "Duke wins Final Four, MICHST wins Sweet 16, Michigan wins Sweet 16"
     },
     {
       "name": "Lisa",
@@ -78,7 +78,7 @@
       "win_pct_kp": 0.3,
       "place_pct_kp": 5.3,
       "expected_winnings": 1.39,
-      "money_path": "UConn wins Sweet 16, UConn wins region, Michigan wins Sweet 16, Iowa St. wins Sweet 16, Michigan wins region, Michigan wins Final Four, Michigan wins Championship"
+      "money_path": "Michigan wins Championship, UConn wins region, Iowa St. wins Sweet 16"
     },
     {
       "name": "Molly",
@@ -89,7 +89,7 @@
       "win_pct_kp": 0.0,
       "place_pct_kp": 30.3,
       "expected_winnings": 6.86,
-      "money_path": "Duke wins Sweet 16, Duke wins region, Arizona wins region, Michigan wins Sweet 16, Iowa St. wins Sweet 16, Arizona wins Final Four, Arizona wins Championship"
+      "money_path": "Arizona wins Championship, Duke wins region, Michigan wins Sweet 16, Iowa St. wins Sweet 16"
     },
     {
       "name": "Peggy",
@@ -100,7 +100,7 @@
       "win_pct_kp": 12.5,
       "place_pct_kp": 17.6,
       "expected_winnings": 10.57,
-      "money_path": "UConn wins Sweet 16, UConn wins region, Illinois wins region, Michigan wins Sweet 16, Michigan wins region, UConn wins Final Four"
+      "money_path": "UConn wins Final Four, Illinois wins region, Michigan wins region"
     },
     {
       "name": "Sammy",
@@ -133,7 +133,7 @@
       "win_pct_kp": 47.1,
       "place_pct_kp": 74.0,
       "expected_winnings": 37.61,
-      "money_path": "Duke wins Sweet 16, Duke wins region, Arizona wins region, Michigan wins Sweet 16, Iowa St. wins Sweet 16, Michigan wins region, Duke wins Final Four, Arizona wins Final Four"
+      "money_path": "Duke wins Final Four, Arizona wins Final Four, Michigan wins region, Iowa St. wins Sweet 16"
     }
   ]
 }
