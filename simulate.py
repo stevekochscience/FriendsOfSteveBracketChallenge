@@ -186,6 +186,53 @@ def get_win_prob(teamA, teamB, kenpom):
         return 0.5
     return log5(kenpom[teamA], kenpom[teamB])
 
+ROUND_LABELS = {
+    'sweet16': 'wins Sweet 16',
+    'elite8': 'wins region',
+    'semifinal1': 'wins Final Four',
+    'semifinal2': 'wins Final Four',
+    'championship': 'wins Championship',
+}
+
+def get_picks_for_slot(picks, slot):
+    """Return the team this participant picked for a given undecided slot."""
+    if slot['type'] == 'region':
+        key, rd, idx = slot['region'], slot['round'], slot['index']
+        pr = picks['regions'][key]
+        if rd == 'elite8':
+            return pr['elite8']
+        return pr[rd][idx]
+    else:
+        ff_slot = slot['ff_slot']
+        pff = picks['final_four']
+        if ff_slot == 'semifinal1':
+            return pff['east_south_winner']
+        elif ff_slot == 'semifinal2':
+            return pff['west_midwest_winner']
+        elif ff_slot == 'championship':
+            return picks['champion']
+
+def describe_path(sim_results, undecided, picks):
+    """Describe the outcomes that match this participant's picks (the wins they need)."""
+    parts = []
+    for slot in undecided:
+        pick = get_picks_for_slot(picks, slot)
+        if slot['type'] == 'region':
+            key, rd, idx = slot['region'], slot['round'], slot['index']
+            if rd == 'elite8':
+                winner = sim_results['results'][key]['elite8']['winner']
+            else:
+                winner = sim_results['results'][key][rd][idx]['winner']
+        else:
+            winner = sim_results['final_four'][slot['ff_slot']]['winner']
+
+        label = ROUND_LABELS.get(
+            slot.get('ff_slot') or slot.get('round'), '')
+
+        if winner == pick:
+            parts.append(pick + ' ' + label)
+    return ', '.join(parts) if parts else None
+
 def count_final_games(results):
     count = 0
     for key in REGION_KEYS:
@@ -246,6 +293,7 @@ def main():
     place_kenpom = {name: 0.0 for name in names}
     ev_flat     = {name: 0.0 for name in names}
     ev_kenpom   = {name: 0.0 for name in names}
+    best_path   = {name: (0.0, None) for name in names}  # (prob, sim_state)
 
     for bits in itertools.product(range(2), repeat=n):
         sim = deepcopy(results)
@@ -297,6 +345,12 @@ def main():
                 ev_flat[nm]   += second_share
                 ev_kenpom[nm] += scenario_prob * second_share
 
+        # Track best (most likely) path to the money for each participant
+        in_money = set(first_place) | set(second_place)
+        for nm in in_money:
+            if scenario_prob > best_path[nm][0]:
+                best_path[nm] = (scenario_prob, deepcopy(sim))
+
     total_prob = sum(win_kenpom[nm] for nm in names) + sum(
         place_kenpom[nm] - win_kenpom[nm] for nm in names)
     # Normalization: use sum of scenario_probs via EV (always sums to $100)
@@ -332,6 +386,8 @@ def main():
     for p in all_picks:
         name = p['participant']
         pid = os.path.splitext(os.path.basename(pick_files[all_picks.index(p)]))[0]
+        bp_prob, bp_sim = best_path[name]
+        money_path = describe_path(bp_sim, undecided, p) if bp_sim else None
         entry = {
             'name': name,
             'pid': pid,
@@ -341,6 +397,7 @@ def main():
             'win_pct_kp':  round(100.0 * win_kenpom[name]  / ev_kp_total * 100, 1) if ev_kp_total > 0 else None,
             'place_pct_kp': round(100.0 * place_kenpom[name] / ev_kp_total * 100, 1) if ev_kp_total > 0 else None,
             'expected_winnings': round(ev_kenpom[name] / ev_kp_total * 100, 2) if ev_kp_total > 0 else None,
+            'money_path': money_path,
         }
         sim_output['participants'].append(entry)
 

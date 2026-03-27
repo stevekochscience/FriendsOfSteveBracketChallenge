@@ -1292,6 +1292,10 @@ function render(tournament, results, allPicks) {
       html += '<div class="card-perfect">\u2B50 Perfect region alive: ' + st.perfectRegions.join(', ') + '</div>';
     }
 
+    if (simEntry && simEntry.money_path) {
+      html += '<div class="card-perfect">\uD83D\uDCB0 Path to $$: ' + simEntry.money_path + '</div>';
+    }
+
     html += '<div class="card-rounds">';
     for (var r = 0; r < 6; r++) {
       var val = st.roundCorrect[r];
