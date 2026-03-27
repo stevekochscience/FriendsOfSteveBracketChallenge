@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-03-23T01:00:00",
+  "last_updated": "2026-03-27T08:00:00",
   "source": "ESPN Scoreboard",
   "scoring": [1, 2, 3, 5, 8, 13],
   "results": {
@@ -40,7 +40,10 @@
         { "winner": "Illinois", "loser": "VCU", "score": "76-55", "status": "final" },
         { "winner": "Houston", "loser": "Texas A&M", "score": "88-57", "status": "final" }
       ],
-      "sweet16": [null, null],
+      "sweet16": [
+        { "winner": "Iowa", "loser": "Nebraska", "score": "77-71", "status": "final" },
+        { "winner": "Illinois", "loser": "Houston", "score": "65-55", "status": "final" }
+      ],
       "elite8": null
     },
     "west": {
@@ -60,7 +63,10 @@
         { "winner": "Texas", "loser": "Gonzaga", "score": "57-54", "status": "final" },
         { "winner": "Purdue", "loser": "Miami", "score": "79-69", "status": "final" }
       ],
-      "sweet16": [null, null],
+      "sweet16": [
+        { "winner": "Arizona", "loser": "Arkansas", "score": "109-88", "status": "final" },
+        { "winner": "Purdue", "loser": "Texas", "score": "79-77", "status": "final" }
+      ],
       "elite8": null
     },
     "midwest": {
