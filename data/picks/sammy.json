@@ -12,7 +12,7 @@
     },
     "south": {
       "round1": ["Florida", "Clemson", "Vanderbilt", "Troy", "VCU", "Illinois", "MARYCA", "Houston"],
-      "round2": ["Florida", "Vanderbilt", "VCU", "Houston"],
+      "round2": ["Florida", "Vanderbilt", "Illinois", "Houston"],
       "sweet16": ["Florida", "Houston"],
       "elite8": "Houston"
     },
