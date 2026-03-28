@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-03-27T22:00:00",
+  "last_updated": "2026-03-28T00:00:00",
   "source": "ESPN Scoreboard",
   "scoring": [1, 2, 3, 5, 8, 13],
   "results": {
@@ -91,7 +91,7 @@
       ],
       "sweet16": [
         { "winner": "Michigan", "loser": "Alabama", "score": "90-77", "status": "final" },
-        null
+        { "winner": "Tennessee", "loser": "Iowa St.", "score": "76-62", "status": "final" }
       ],
       "elite8": null
     }
