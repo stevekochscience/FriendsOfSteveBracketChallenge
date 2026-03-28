@@ -310,6 +310,7 @@ def main():
     ev_flat     = {name: 0.0 for name in names}
     ev_kenpom   = {name: 0.0 for name in names}
     best_path   = {name: (0.0, None) for name in names}  # (prob, sim_state)
+    beat_sammy  = {name: 0.0 for name in names}  # KenPom-weighted prob of beating Sammy
 
     for bits in itertools.product(range(2), repeat=n):
         sim = deepcopy(results)
@@ -367,10 +368,18 @@ def main():
             if scenario_prob > best_path[nm][0]:
                 best_path[nm] = (scenario_prob, deepcopy(sim))
 
+        # SOBS: who beats Sammy in this scenario?
+        sammy_score = scores.get('Sammy', 0)
+        for nm, s in scores.items():
+            if s > sammy_score:
+                beat_sammy[nm] += scenario_prob
+
     total_prob = sum(win_kenpom[nm] for nm in names) + sum(
         place_kenpom[nm] - win_kenpom[nm] for nm in names)
     # Normalization: use sum of scenario_probs via EV (always sums to $100)
     ev_kp_total = sum(ev_kenpom.values())
+    # SOBS normalization: total probability mass = ev_kp_total / 100
+    sobs_total_prob = ev_kp_total / 100.0 if ev_kp_total > 0 else 1.0
 
     sorted_names = sorted(names, key=lambda name: base_scores[name], reverse=True)
     if kenpom:
@@ -414,6 +423,7 @@ def main():
             'place_pct_kp': round(100.0 * place_kenpom[name] / ev_kp_total * 100, 1) if ev_kp_total > 0 else None,
             'expected_winnings': round(ev_kenpom[name] / ev_kp_total * 100, 2) if ev_kp_total > 0 else None,
             'money_path': money_path,
+            'sobs_pct': round(100.0 * beat_sammy[name] / sobs_total_prob, 1) if name != 'Sammy' else None,
         }
         sim_output['participants'].append(entry)
 

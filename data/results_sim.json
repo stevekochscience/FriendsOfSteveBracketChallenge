@@ -12,7 +12,8 @@
       "win_pct_kp": 22.0,
       "place_pct_kp": 52.1,
       "expected_winnings": 21.98,
-      "money_path": "Duke wins Championship, Michigan wins Final Four, Arizona wins region"
+      "money_path": "Duke wins Championship, Michigan wins Final Four, Arizona wins region",
+      "sobs_pct": 100.0
     },
     {
       "name": "Gracie",
@@ -23,7 +24,8 @@
       "win_pct_kp": 0.0,
       "place_pct_kp": 2.3,
       "expected_winnings": 0.58,
-      "money_path": "Michigan wins Championship, Duke wins region"
+      "money_path": "Michigan wins Championship, Duke wins region",
+      "sobs_pct": 47.5
     },
     {
       "name": "Kristy",
@@ -34,7 +36,8 @@
       "win_pct_kp": 28.4,
       "place_pct_kp": 45.3,
       "expected_winnings": 23.45,
-      "money_path": "Duke wins Final Four, Michigan wins Final Four, Arizona wins region"
+      "money_path": "Duke wins Final Four, Michigan wins Final Four, Arizona wins region",
+      "sobs_pct": 100.0
     },
     {
       "name": "Kylan",
@@ -45,7 +48,8 @@
       "win_pct_kp": 0.0,
       "place_pct_kp": 0.0,
       "expected_winnings": 0.0,
-      "money_path": null
+      "money_path": null,
+      "sobs_pct": 33.7
     },
     {
       "name": "Larry",
@@ -56,7 +60,8 @@
       "win_pct_kp": 0.0,
       "place_pct_kp": 0.0,
       "expected_winnings": 0.0,
-      "money_path": null
+      "money_path": null,
+      "sobs_pct": 18.1
     },
     {
       "name": "Laura",
@@ -67,7 +72,8 @@
       "win_pct_kp": 0.0,
       "place_pct_kp": 0.0,
       "expected_winnings": 0.0,
-      "money_path": null
+      "money_path": null,
+      "sobs_pct": 13.8
     },
     {
       "name": "Lisa",
@@ -78,7 +84,8 @@
       "win_pct_kp": 0.0,
       "place_pct_kp": 5.6,
       "expected_winnings": 1.4,
-      "money_path": "Michigan wins Championship, UConn wins region"
+      "money_path": "Michigan wins Championship, UConn wins region",
+      "sobs_pct": 32.8
     },
     {
       "name": "Molly",
@@ -89,7 +96,8 @@
       "win_pct_kp": 0.0,
       "place_pct_kp": 26.5,
       "expected_winnings": 6.63,
-      "money_path": "Arizona wins Championship, Duke wins region"
+      "money_path": "Arizona wins Championship, Duke wins region",
+      "sobs_pct": 63.2
     },
     {
       "name": "Peggy",
@@ -100,7 +108,8 @@
       "win_pct_kp": 10.9,
       "place_pct_kp": 16.3,
       "expected_winnings": 9.41,
-      "money_path": "UConn wins Final Four, Illinois wins region, Michigan wins region"
+      "money_path": "UConn wins Final Four, Illinois wins region, Michigan wins region",
+      "sobs_pct": 69.1
     },
     {
       "name": "Sammy",
@@ -111,7 +120,8 @@
       "win_pct_kp": 0.0,
       "place_pct_kp": 0.0,
       "expected_winnings": 0.0,
-      "money_path": null
+      "money_path": null,
+      "sobs_pct": null
     },
     {
       "name": "Shawn",
@@ -122,7 +132,8 @@
       "win_pct_kp": 0.0,
       "place_pct_kp": 0.0,
       "expected_winnings": 0.0,
-      "money_path": null
+      "money_path": null,
+      "sobs_pct": 5.1
     },
     {
       "name": "Steve",
@@ -133,7 +144,8 @@
       "win_pct_kp": 42.5,
       "place_pct_kp": 61.1,
       "expected_winnings": 36.54,
-      "money_path": "Duke wins Final Four, Arizona wins Final Four, Michigan wins region"
+      "money_path": "Duke wins Final Four, Arizona wins Final Four, Michigan wins region",
+      "sobs_pct": 100.0
     }
   ]
 }
