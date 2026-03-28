@@ -22,7 +22,7 @@
       ],
       "sweet16": [
         { "winner": "Duke", "loser": "St. John's", "score": "80-75", "status": "final" },
-        null
+        { "winner": "UConn", "loser": "MICHST", "score": "63-42", "status": "final" }
       ],
       "elite8": null
     },

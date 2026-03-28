@@ -1,51 +1,51 @@
 {
-  "computed_at_game_count": 54,
-  "total_scenarios": 512,
+  "computed_at_game_count": 55,
+  "total_scenarios": 256,
   "has_kenpom": true,
   "participants": [
     {
       "name": "Brady",
       "pid": "brady",
       "current_score": 61,
-      "win_pct": 29.9,
-      "place_pct": 60.5,
-      "win_pct_kp": 32.8,
-      "place_pct_kp": 66.3,
-      "expected_winnings": 27.04,
-      "money_path": "Duke wins Championship, Michigan wins Final Four, Arizona wins region, MICHST wins Sweet 16, Iowa St. wins Sweet 16"
+      "win_pct": 14.5,
+      "place_pct": 34.4,
+      "win_pct_kp": 21.8,
+      "place_pct_kp": 50.5,
+      "expected_winnings": 21.57,
+      "money_path": "Duke wins Championship, Michigan wins Final Four, Arizona wins region, Iowa St. wins Sweet 16"
     },
     {
       "name": "Gracie",
       "pid": "gracie",
-      "current_score": 44,
+      "current_score": 47,
       "win_pct": 0.0,
-      "place_pct": 0.4,
+      "place_pct": 0.8,
       "win_pct_kp": 0.0,
-      "place_pct_kp": 0.4,
-      "expected_winnings": 0.1,
-      "money_path": "Michigan wins Championship, Duke wins region, UConn wins Sweet 16, Tennessee wins Sweet 16"
+      "place_pct_kp": 0.8,
+      "expected_winnings": 0.2,
+      "money_path": "Michigan wins Championship, Duke wins region, Tennessee wins Sweet 16"
     },
     {
       "name": "Kristy",
       "pid": "kristy",
       "current_score": 61,
-      "win_pct": 31.2,
-      "place_pct": 58.2,
-      "win_pct_kp": 31.6,
-      "place_pct_kp": 56.5,
-      "expected_winnings": 23.63,
-      "money_path": "Duke wins Final Four, Michigan wins Final Four, Arizona wins region, MICHST wins Sweet 16, Iowa St. wins Sweet 16"
+      "win_pct": 17.2,
+      "place_pct": 32.8,
+      "win_pct_kp": 25.5,
+      "place_pct_kp": 41.0,
+      "expected_winnings": 21.04,
+      "money_path": "Duke wins Final Four, Michigan wins Final Four, Arizona wins region, Iowa St. wins Sweet 16"
     },
     {
       "name": "Kylan",
       "pid": "kylan",
       "current_score": 48,
       "win_pct": 0.0,
-      "place_pct": 5.5,
+      "place_pct": 0.0,
       "win_pct_kp": 0.0,
-      "place_pct_kp": 3.9,
-      "expected_winnings": 0.73,
-      "money_path": "Arizona wins Championship, MICHST wins region, Michigan wins region, Iowa St. wins Sweet 16"
+      "place_pct_kp": 0.0,
+      "expected_winnings": 0.0,
+      "money_path": null
     },
     {
       "name": "Larry",
@@ -63,43 +63,43 @@
       "pid": "laura",
       "current_score": 48,
       "win_pct": 0.0,
-      "place_pct": 0.2,
+      "place_pct": 0.0,
       "win_pct_kp": 0.0,
       "place_pct_kp": 0.0,
-      "expected_winnings": 0.01,
-      "money_path": "Duke wins Final Four, MICHST wins Sweet 16"
+      "expected_winnings": 0.0,
+      "money_path": null
     },
     {
       "name": "Lisa",
       "pid": "lisa",
-      "current_score": 46,
+      "current_score": 49,
       "win_pct": 0.0,
-      "place_pct": 4.3,
+      "place_pct": 5.5,
       "win_pct_kp": 0.0,
-      "place_pct_kp": 4.4,
-      "expected_winnings": 0.93,
+      "place_pct_kp": 6.2,
+      "expected_winnings": 1.54,
       "money_path": "Michigan wins Championship, UConn wins region, Iowa St. wins Sweet 16"
     },
     {
       "name": "Molly",
       "pid": "molly",
-      "current_score": 56,
+      "current_score": 59,
       "win_pct": 0.0,
-      "place_pct": 25.0,
+      "place_pct": 22.7,
       "win_pct_kp": 0.0,
-      "place_pct_kp": 28.5,
-      "expected_winnings": 6.5,
+      "place_pct_kp": 29.4,
+      "expected_winnings": 7.34,
       "money_path": "Arizona wins Championship, Duke wins region, Iowa St. wins Sweet 16"
     },
     {
       "name": "Peggy",
       "pid": "peggy",
-      "current_score": 58,
-      "win_pct": 27.1,
-      "place_pct": 37.7,
-      "win_pct_kp": 8.1,
-      "place_pct_kp": 12.2,
-      "expected_winnings": 7.07,
+      "current_score": 61,
+      "win_pct": 34.0,
+      "place_pct": 43.8,
+      "win_pct_kp": 10.5,
+      "place_pct_kp": 15.4,
+      "expected_winnings": 9.04,
       "money_path": "UConn wins Final Four, Illinois wins region, Michigan wins region"
     },
     {
@@ -127,12 +127,12 @@
     {
       "name": "Steve",
       "pid": "steve",
-      "current_score": 64,
-      "win_pct": 42.4,
-      "place_pct": 81.2,
-      "win_pct_kp": 41.8,
-      "place_pct_kp": 66.4,
-      "expected_winnings": 34.0,
+      "current_score": 67,
+      "win_pct": 39.5,
+      "place_pct": 79.7,
+      "win_pct_kp": 45.6,
+      "place_pct_kp": 65.8,
+      "expected_winnings": 39.27,
       "money_path": "Duke wins Final Four, Arizona wins Final Four, Michigan wins region, Iowa St. wins Sweet 16"
     }
   ]
