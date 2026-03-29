@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-03-28T00:00:00",
+  "last_updated": "2026-03-28T22:00:00",
   "source": "ESPN Scoreboard",
   "scoring": [1, 2, 3, 5, 8, 13],
   "results": {
@@ -47,7 +47,7 @@
         { "winner": "Iowa", "loser": "Nebraska", "score": "77-71", "status": "final" },
         { "winner": "Illinois", "loser": "Houston", "score": "65-55", "status": "final" }
       ],
-      "elite8": null
+      "elite8": { "winner": "Illinois", "loser": "Iowa", "score": "71-59", "status": "final" }
     },
     "west": {
       "round1": [
@@ -70,7 +70,7 @@
         { "winner": "Arizona", "loser": "Arkansas", "score": "109-88", "status": "final" },
         { "winner": "Purdue", "loser": "Texas", "score": "79-77", "status": "final" }
       ],
-      "elite8": null
+      "elite8": { "winner": "Arizona", "loser": "Purdue", "score": "79-64", "status": "final" }
     },
     "midwest": {
       "round1": [
