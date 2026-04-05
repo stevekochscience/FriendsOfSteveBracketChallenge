@@ -1,24 +1,24 @@
 {
-  "computed_at_game_count": 60,
-  "total_scenarios": 8,
+  "computed_at_game_count": 62,
+  "total_scenarios": 2,
   "has_kenpom": true,
   "participants": [
     {
       "name": "Brady",
       "pid": "brady",
-      "current_score": 71,
-      "win_pct": 12.5,
-      "place_pct": 25.0,
-      "win_pct_kp": 9.8,
-      "place_pct_kp": 15.4,
-      "expected_winnings": 4.37,
-      "money_path": "Michigan wins Final Four",
+      "current_score": 79,
+      "win_pct": 0.0,
+      "place_pct": 50.0,
+      "win_pct_kp": 0.0,
+      "place_pct_kp": 26.9,
+      "expected_winnings": 3.36,
+      "money_path": null,
       "sobs_pct": 100.0
     },
     {
       "name": "Gracie",
       "pid": "gracie",
-      "current_score": 55,
+      "current_score": 63,
       "win_pct": 0.0,
       "place_pct": 0.0,
       "win_pct_kp": 0.0,
@@ -30,12 +30,12 @@
     {
       "name": "Kristy",
       "pid": "kristy",
-      "current_score": 71,
-      "win_pct": 37.5,
-      "place_pct": 50.0,
-      "win_pct_kp": 44.5,
-      "place_pct_kp": 50.2,
-      "expected_winnings": 30.43,
+      "current_score": 79,
+      "win_pct": 50.0,
+      "place_pct": 100.0,
+      "win_pct_kp": 73.1,
+      "place_pct_kp": 100.0,
+      "expected_winnings": 58.2,
       "money_path": "Michigan wins Championship",
       "sobs_pct": 100.0
     },
@@ -49,7 +49,7 @@
       "place_pct_kp": 0.0,
       "expected_winnings": 0.0,
       "money_path": null,
-      "sobs_pct": 49.8
+      "sobs_pct": 0.0
     },
     {
       "name": "Larry",
@@ -61,7 +61,7 @@
       "place_pct_kp": 0.0,
       "expected_winnings": 0.0,
       "money_path": null,
-      "sobs_pct": 49.8
+      "sobs_pct": 0.0
     },
     {
       "name": "Laura",
@@ -78,13 +78,13 @@
     {
       "name": "Lisa",
       "pid": "lisa",
-      "current_score": 59,
+      "current_score": 67,
       "win_pct": 0.0,
-      "place_pct": 12.5,
+      "place_pct": 0.0,
       "win_pct_kp": 0.0,
-      "place_pct_kp": 19.3,
-      "expected_winnings": 4.82,
-      "money_path": "Michigan wins Championship",
+      "place_pct_kp": 0.0,
+      "expected_winnings": 0.0,
+      "money_path": null,
       "sobs_pct": 100.0
     },
     {
@@ -92,29 +92,29 @@
       "pid": "molly",
       "current_score": 64,
       "win_pct": 0.0,
-      "place_pct": 25.0,
+      "place_pct": 0.0,
       "win_pct_kp": 0.0,
-      "place_pct_kp": 34.4,
-      "expected_winnings": 8.6,
-      "money_path": "Arizona wins Championship",
-      "sobs_pct": 65.3
+      "place_pct_kp": 0.0,
+      "expected_winnings": 0.0,
+      "money_path": null,
+      "sobs_pct": 26.9
     },
     {
       "name": "Peggy",
       "pid": "peggy",
-      "current_score": 76,
-      "win_pct": 25.0,
-      "place_pct": 50.0,
-      "win_pct_kp": 11.3,
-      "place_pct_kp": 36.5,
-      "expected_winnings": 14.81,
-      "money_path": "UConn wins Final Four",
+      "current_score": 84,
+      "win_pct": 50.0,
+      "place_pct": 100.0,
+      "win_pct_kp": 26.9,
+      "place_pct_kp": 100.0,
+      "expected_winnings": 38.44,
+      "money_path": null,
       "sobs_pct": 100.0
     },
     {
       "name": "Sammy",
       "pid": "sammy",
-      "current_score": 53,
+      "current_score": 61,
       "win_pct": 0.0,
       "place_pct": 0.0,
       "win_pct_kp": 0.0,
@@ -139,12 +139,12 @@
       "name": "Steve",
       "pid": "steve",
       "current_score": 77,
-      "win_pct": 37.5,
-      "place_pct": 62.5,
-      "win_pct_kp": 44.1,
-      "place_pct_kp": 59.6,
-      "expected_winnings": 36.97,
-      "money_path": "Arizona wins Championship",
+      "win_pct": 0.0,
+      "place_pct": 0.0,
+      "win_pct_kp": 0.0,
+      "place_pct_kp": 0.0,
+      "expected_winnings": 0.0,
+      "money_path": null,
       "sobs_pct": 100.0
     }
   ]
