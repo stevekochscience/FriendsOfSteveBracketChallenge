@@ -330,95 +330,71 @@ tr.rank1 td { font-weight: bold; }
 .ff-label { color: #888; font-size: 0.8em; }
 
 /* ---- WHAT IF MODE ---- */
-.whatif-panel {
+.sim-slider {
   max-width: 1100px;
-  margin: 0 auto 12px;
+  margin: 0 auto 16px;
   background: #16213e;
-  border-radius: 8px;
-  padding: 10px 12px;
+  border-radius: 10px;
+  padding: 14px 12px;
 }
-.whatif-toggle {
-  display: block;
-  width: 100%;
-  padding: 8px;
-  background: #0f3460;
-  color: #f7c948;
-  border: none;
-  border-radius: 6px;
-  font-size: 0.85em;
-  font-weight: 600;
-  cursor: pointer;
+.sim-slider-label {
   text-align: center;
+  font-size: 0.7em;
+  color: #666;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
-.whatif-toggle:active { background: #1a4a7e; }
-.whatif-body { display: none; margin-top: 10px; }
-.whatif-body.open { display: block; }
-.whatif-row {
+.sim-options {
   display: flex;
-  gap: 6px;
   align-items: center;
-  margin-bottom: 6px;
-  flex-wrap: wrap;
-}
-.whatif-row.locked { opacity: 0.5; }
-.whatif-row select {
-  padding: 6px 8px;
-  border-radius: 4px;
-  border: 1px solid #2a3a5e;
-  background: #0f1a30;
-  color: #e0e0e0;
-  font-size: 0.82em;
-  flex: 1;
-  min-width: 100px;
-}
-.whatif-row select:disabled { opacity: 0.4; }
-.whatif-row .wi-label {
-  color: #888;
-  font-size: 0.8em;
-  white-space: nowrap;
-}
-.whatif-row button {
-  padding: 4px 10px;
-  border-radius: 4px;
-  border: none;
-  font-size: 0.78em;
-  cursor: pointer;
-  white-space: nowrap;
-}
-.wi-delete { background: #5c2020; color: #e74c3c; }
-.wi-lock-icon { color: #f7c948; font-size: 0.8em; }
-.whatif-actions {
-  display: flex;
-  gap: 6px;
-  margin-top: 6px;
-}
-.whatif-actions button {
-  padding: 6px 12px;
-  border-radius: 4px;
-  border: none;
-  font-size: 0.8em;
-  cursor: pointer;
-}
-.wi-add { background: #1a4a3e; color: #4ecca3; }
-.wi-reset { background: #3a2020; color: #e74c3c; }
-.whatif-banner {
-  max-width: 1100px;
-  margin: 0 auto 12px;
-  padding: 10px 14px;
-  background: linear-gradient(90deg, #5c2020, #8b3a3a, #5c2020);
+  justify-content: center;
+  gap: 0;
   border-radius: 8px;
+  overflow: hidden;
+  border: 2px solid #2a3a5e;
+}
+.sim-opt {
+  flex: 1;
+  padding: 10px 6px;
   text-align: center;
-  font-weight: 700;
-  color: #ff6b6b;
-  animation: wiBannerPulse 2s ease-in-out infinite;
+  cursor: pointer;
+  font-weight: 800;
+  border: none;
+  background: #0f1a30;
+  color: #555;
+  transition: all 0.2s;
+  border-right: 1px solid #2a3a5e;
 }
-@keyframes wiBannerPulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.7; }
+.sim-opt:last-child { border-right: none; }
+.sim-opt:hover { background: #1a2a4e; }
+.sim-opt.active-real { background: #1a3a2e; color: #4ecca3; }
+.sim-opt.active-mich { background: #00274C; color: #FFCB05; }
+.sim-opt.active-uconn { background: #0E1A3C; color: #8FAABE; }
+.sim-opt.active-sammy { background: #2a0a0a; color: #ff6b6b; }
+.sim-opt-real { font-size: 0.85em; }
+.sim-opt-mich { font-size: 1.4em; letter-spacing: 2px; }
+.sim-opt-uconn { font-size: 0.95em; }
+.sim-opt-sammy { font-size: 0.7em; font-style: italic; }
+.sim-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+  z-index: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  opacity: 0.06;
+  letter-spacing: 8px;
+  text-transform: uppercase;
+  line-height: 1.3;
 }
-.whatif-banner .wi-banner-title { font-size: 1em; margin-bottom: 4px; }
-.whatif-banner .wi-banner-desc { font-size: 0.75em; color: #ccc; font-weight: 400; }
-.whatif-banner .wi-banner-stack { font-size: 0.8em; color: #ffaa88; }
+.sim-overlay-mich { font-size: 12vw; color: #FFCB05; }
+.sim-overlay-uconn { font-size: 12vw; color: #8FAABE; }
+.sim-overlay-sammy { font-size: 8vw; color: #ff6b6b; }
+.sim-overlay .sim-sub { font-size: 4vw; margin-top: 10px; }
 
 @media (min-width: 768px) {
   body { padding: 20px; }
@@ -465,8 +441,7 @@ var STYLE_MAP = {
 var _tournament, _results, _allPicks, _eliminated;
 var _realResults; /* always the unmodified results */
 var _simData = null; /* results_sim.json output, null if not loaded */
-var _whatIfStack = []; /* [{team:'Illinois', outcome:'championship'}, ...] */
-var _whatIfOpen = false;
+var _simMode = 'real'; /* 'real', 'michigan', 'uconn', 'sammy' */
 
 function getEliminated(results) {
   var elim = {};
@@ -802,87 +777,6 @@ function simulateWins(team, outcome, baseResults) {
   return sim;
 }
 
-function replayStack() {
-  var sim = JSON.parse(JSON.stringify(_realResults));
-  for (var i = 0; i < _whatIfStack.length; i++) {
-    sim = simulateWins(_whatIfStack[i].team, _whatIfStack[i].outcome, sim);
-  }
-  return sim;
-}
-
-function getAliveTeams() {
-  var elim = getEliminated(_realResults);
-  var alive = [];
-  for (var r = 0; r < REGIONS.length; r++) {
-    var games = _tournament.regions[REGIONS[r]].games;
-    for (var j = 0; j < games.length; j++) {
-      if (!elim[games[j].top_team]) alive.push(games[j].top_team);
-      if (!elim[games[j].bottom_team]) alive.push(games[j].bottom_team);
-    }
-  }
-  /* deduplicate */
-  var seen = {};
-  var unique = [];
-  for (var i = 0; i < alive.length; i++) {
-    if (!seen[alive[i]]) { seen[alive[i]] = true; unique.push(alive[i]); }
-  }
-  unique.sort();
-  return unique;
-}
-
-function getAvailableOutcomes(team) {
-  var region = findTeamRegion(team);
-  if (!region) return [];
-  var r1idx = findR1Index(region, team);
-  var teamPath = getTeamPath(region, r1idx);
-
-  var rr = _realResults.results[region];
-  var r2slot = Math.floor(r1idx / 2);
-  var s16slot = Math.floor(r2slot / 2);
-  var sfKey = (region === 'east' || region === 'south') ? 'semifinal1' : 'semifinal2';
-  function isGF(g) { return g && typeof g === 'object' && g.status === 'final'; }
-
-  var currentRound = 0;
-  if (isGF(rr.round1[r1idx])) currentRound = 1;
-  if (currentRound >= 1 && isGF(rr.round2[r2slot])) currentRound = 2;
-  if (currentRound >= 2 && isGF(rr.sweet16[s16slot])) currentRound = 3;
-  if (currentRound >= 3 && rr.elite8 && isGF(rr.elite8)) currentRound = 4;
-  if (currentRound >= 4 && isGF(_realResults.final_four[sfKey])) currentRound = 5;
-
-  var allOC = [
-    { value: 'next', label: 'wins next game', targetRound: currentRound },
-    { value: 'r2', label: 'wins Round of 32', targetRound: 1 },
-    { value: 'r3', label: 'wins Sweet 16', targetRound: 2 },
-    { value: 'region', label: 'wins region', targetRound: 3 },
-    { value: 'ff', label: 'wins Final Four', targetRound: 4 },
-    { value: 'championship', label: 'wins championship', targetRound: 5 }
-  ];
-
-  var available = [];
-  for (var o = 0; o < allOC.length; o++) {
-    var oc = allOC[o];
-    if (oc.value !== 'next' && oc.targetRound < currentRound) continue;
-    if (oc.value === 'next') {
-      var dominated = false;
-      for (var oo = 1; oo < allOC.length; oo++) {
-        if (allOC[oo].targetRound === currentRound) { dominated = true; break; }
-      }
-      if (dominated) continue;
-    }
-    var blocked = false;
-    for (var c = 0; c < _whatIfStack.length; c++) {
-      if (!_whatIfStack[c].team || !_whatIfStack[c].outcome) continue;
-      var cReg = findTeamRegion(_whatIfStack[c].team);
-      if (!cReg) continue;
-      var cIdx = findR1Index(cReg, _whatIfStack[c].team);
-      var cPath = getTeamPath(cReg, cIdx);
-      if (pathsConflict(teamPath, cPath, oc.targetRound)) { blocked = true; break; }
-    }
-    if (!blocked) available.push(oc);
-  }
-  return available;
-}
-
 function pickStatus(pick, gameResult, eliminated) {
   if (gameResult && gameResult.status === 'final') {
     if (gameResult.winner === pick) return 'correct';
@@ -908,161 +802,85 @@ function ffPickStatus(pick, gameResult, eliminated) {
   return 'pending';
 }
 
-function onTeamSelect(rowIdx) {
-  /* Clear this row so it doesn't conflict with itself */
-  _whatIfStack[rowIdx] = { team: '', outcome: '' };
-  var sel = document.getElementById('wi-team-' + rowIdx);
-  var ocSel = document.getElementById('wi-outcome-' + rowIdx);
-  var team = sel.value;
-  ocSel.innerHTML = '<option value="">-- pick outcome --</option>';
-  if (!team) { refreshWithWhatIf(); return; }
-  _whatIfStack[rowIdx].team = team;
-  var outcomes = getAvailableOutcomes(team);
-  for (var i = 0; i < outcomes.length; i++) {
-    ocSel.innerHTML += '<option value="' + outcomes[i].value + '">' + outcomes[i].label + '</option>';
+function setSimMode(mode) {
+  _simMode = mode;
+  /* Remove existing overlay */
+  var old = document.getElementById('sim-overlay');
+  if (old) old.parentNode.removeChild(old);
+
+  if (mode === 'real') {
+    _results = _realResults;
+    _eliminated = getEliminated(_realResults);
+    render(_tournament, _realResults, _allPicks);
+    return;
   }
-  /* Refresh standings back to real since outcome is now cleared */
-  refreshWithWhatIf();
-}
 
-function onOutcomeSelect(rowIdx) {
-  var sel = document.getElementById('wi-team-' + rowIdx);
-  var ocSel = document.getElementById('wi-outcome-' + rowIdx);
-  if (!sel.value || !ocSel.value) return;
-  _whatIfStack[rowIdx] = { team: sel.value, outcome: ocSel.value };
-  refreshWithWhatIf();
-}
-
-function addWhatIfRow() {
-  _whatIfStack.push({ team: '', outcome: '' });
-  refreshWithWhatIf();
-}
-
-function deleteWhatIf(idx) {
-  _whatIfStack.splice(idx);
-  refreshWithWhatIf();
-}
-
-function resetWhatIf() {
-  _whatIfStack = [];
-  refreshWithWhatIf();
-}
-
-function toggleWhatIf() {
-  _whatIfOpen = !_whatIfOpen;
-  refreshWithWhatIf();
-}
-
-function refreshWithWhatIf() {
-  var activeCount = 0;
-  for (var i = 0; i < _whatIfStack.length; i++) {
-    if (_whatIfStack[i].team && _whatIfStack[i].outcome) activeCount++;
+  if (mode === 'sammy') {
+    /* Joke mode: render with hacked scores */
+    _results = _realResults;
+    _eliminated = getEliminated(_realResults);
+    render(_tournament, _realResults, _allPicks);
+    return;
   }
-  var simResults = activeCount > 0 ? replayStack() : _realResults;
-  _results = simResults;
-  _eliminated = getEliminated(simResults);
-  render(_tournament, simResults, _allPicks);
+
+  /* michigan or uconn: simulate championship result */
+  var sim = JSON.parse(JSON.stringify(_realResults));
+  if (mode === 'michigan') {
+    sim.final_four.championship = { winner: 'Michigan', loser: 'UConn', score: 'SIM', status: 'final' };
+  } else {
+    sim.final_four.championship = { winner: 'UConn', loser: 'Michigan', score: 'SIM', status: 'final' };
+  }
+  _results = sim;
+  _eliminated = getEliminated(sim);
+  render(_tournament, sim, _allPicks);
 }
 
-function renderWhatIfControls() {
+function renderSimSlider() {
   var html = '';
-  var activeEntries = [];
-  for (var i = 0; i < _whatIfStack.length; i++) {
-    if (_whatIfStack[i].team && _whatIfStack[i].outcome) activeEntries.push(_whatIfStack[i]);
-  }
-
-  /* Banner if active */
-  if (activeEntries.length > 0) {
-    html += '<div class="whatif-banner">';
-    html += '<div class="wi-banner-title">\u26A0 WHAT IF MODE \u26A0</div>';
-    var stackDesc = [];
-    for (var b = 0; b < activeEntries.length; b++) {
-      stackDesc.push(activeEntries[b].team + ' ' + activeEntries[b].outcome);
-    }
-    html += '<div class="wi-banner-stack">' + stackDesc.join(' + ') + '</div>';
-    html += '<div class="wi-banner-desc">Only these teams\' games are simulated; everything else stays as-is</div>';
-    html += '</div>';
-  }
-
-  /* Panel */
-  html += '<div class="whatif-panel">';
-  html += '<button class="whatif-toggle" onclick="toggleWhatIf()">\uD83E\uDD14 What If...? ' + (_whatIfOpen ? '\u25B2' : '\u25BC') + '</button>';
-  html += '<div class="whatif-body' + (_whatIfOpen ? ' open' : '') + '">';
-
-  var alive = getAliveTeams();
-
-  for (var r = 0; r < _whatIfStack.length; r++) {
-    var entry = _whatIfStack[r];
-    var isLast = (r === _whatIfStack.length - 1);
-    var isLocked = !isLast && entry.team && entry.outcome;
-    html += '<div class="whatif-row' + (isLocked ? ' locked' : '') + '">';
-
-    if (isLocked) {
-      html += '<span class="wi-lock-icon">\uD83D\uDD12</span>';
-      html += '<select id="wi-team-' + r + '" disabled>';
-      html += '<option>' + entry.team + '</option></select>';
-      html += '<span class="wi-label">to</span>';
-      html += '<select id="wi-outcome-' + r + '" disabled>';
-      html += '<option>' + entry.outcome + '</option></select>';
-      html += '<button class="wi-delete" onclick="deleteWhatIf(' + r + ')">Delete +below</button>';
-    } else {
-      html += '<select id="wi-team-' + r + '" onchange="onTeamSelect(' + r + ')">';
-      html += '<option value="">-- pick team --</option>';
-      for (var t = 0; t < alive.length; t++) {
-        var selected = (entry.team === alive[t]) ? ' selected' : '';
-        html += '<option value="' + alive[t] + '"' + selected + '>' + alive[t] + '</option>';
-      }
-      html += '</select>';
-      html += '<span class="wi-label">to</span>';
-      html += '<select id="wi-outcome-' + r + '" onchange="onOutcomeSelect(' + r + ')">';
-      html += '<option value="">-- pick outcome --</option>';
-      if (entry.team) {
-        var ocs = getAvailableOutcomes(entry.team);
-        for (var oi = 0; oi < ocs.length; oi++) {
-          var osel = (entry.outcome === ocs[oi].value) ? ' selected' : '';
-          html += '<option value="' + ocs[oi].value + '"' + osel + '>' + ocs[oi].label + '</option>';
-        }
-      }
-      html += '</select>';
-      html += '<button class="wi-delete" onclick="deleteWhatIf(' + r + ')">Delete</button>';
-    }
-    html += '</div>';
-  }
-
-  html += '<div class="whatif-actions">';
-  html += '<button class="wi-add" onclick="addWhatIfRow()">+ Add What If</button>';
-  if (_whatIfStack.length > 0) {
-    html += '<button class="wi-reset" onclick="resetWhatIf()">Reset All</button>';
-  }
-  html += '</div>';
+  html += '<div class="sim-slider">';
+  html += '<div class="sim-slider-label">Championship Simulator</div>';
+  html += '<div class="sim-options">';
+  html += '<button class="sim-opt sim-opt-real' + (_simMode === 'real' ? ' active-real' : '') + '" onclick="setSimMode(\'real\')">\u2705 Real Life</button>';
+  html += '<button class="sim-opt sim-opt-mich' + (_simMode === 'michigan' ? ' active-mich' : '') + '" onclick="setSimMode(\'michigan\')">MICHIGAN</button>';
+  html += '<button class="sim-opt sim-opt-uconn' + (_simMode === 'uconn' ? ' active-uconn' : '') + '" onclick="setSimMode(\'uconn\')">uconn</button>';
+  html += '<button class="sim-opt sim-opt-sammy' + (_simMode === 'sammy' ? ' active-sammy' : '') + '" onclick="setSimMode(\'sammy\')">sammy</button>';
   html += '</div></div>';
-
   return html;
+}
+
+function renderSimOverlay() {
+  var old = document.getElementById('sim-overlay');
+  if (old) old.parentNode.removeChild(old);
+  if (_simMode === 'real') return;
+  var div = document.createElement('div');
+  div.id = 'sim-overlay';
+  div.className = 'sim-overlay';
+  if (_simMode === 'michigan') {
+    div.classList.add('sim-overlay-mich');
+    div.innerHTML = 'SIMULATION';
+  } else if (_simMode === 'uconn') {
+    div.classList.add('sim-overlay-uconn');
+    div.innerHTML = 'SIMULATION';
+  } else if (_simMode === 'sammy') {
+    div.classList.add('sim-overlay-sammy');
+    div.innerHTML = 'SIMULATION<div class="sim-sub">WOULD NEVER HAPPEN</div>';
+  }
+  document.body.appendChild(div);
 }
 
 function showDetail(idx) {
   var picks = _allPicks[idx];
-  var s = scorePicks(picks, _results, _eliminated);
+  var useResults = _results;
+  var useEliminated = _eliminated;
+  if (_simMode === 'sammy') {
+    useResults = _realResults;
+    useEliminated = getEliminated(_realResults);
+  }
+  var s = scorePicks(picks, useResults, useEliminated);
   var html = '';
 
   html += '<div class="detail-view">';
   html += '<button class="back-btn" onclick="showStandings()">\u2190 Back to Standings</button>';
-
-  /* What If banner on detail page */
-  var activeWI = [];
-  for (var wi = 0; wi < _whatIfStack.length; wi++) {
-    if (_whatIfStack[wi].team && _whatIfStack[wi].outcome) activeWI.push(_whatIfStack[wi]);
-  }
-  if (activeWI.length > 0) {
-    html += '<div class="whatif-banner">';
-    html += '<div class="wi-banner-title">\u26A0 WHAT IF MODE \u26A0</div>';
-    var wiDesc = [];
-    for (var wd = 0; wd < activeWI.length; wd++) {
-      wiDesc.push(activeWI[wd].team + ' ' + activeWI[wd].outcome);
-    }
-    html += '<div class="wi-banner-stack">' + wiDesc.join(' + ') + '</div>';
-    html += '</div>';
-  }
 
   /* Header */
   html += '<div class="detail-header">';
@@ -1157,7 +975,7 @@ function showDetail(idx) {
 
 function showStandings() {
   if (_realResults) {
-    refreshWithWhatIf();
+    setSimMode(_simMode);
   } else {
     render(_tournament, _results, _allPicks);
   }
@@ -1191,6 +1009,21 @@ function render(tournament, results, allPicks) {
       award: getAward(p, tournament, results, eliminated),
       style: STYLE_MAP[p.participant] || ''
     });
+  }
+
+  /* Sammy mode: override all scores */
+  if (_simMode === 'sammy') {
+    for (i = 0; i < standings.length; i++) {
+      if (standings[i].name === 'Sammy') {
+        standings[i].score = 1000;
+        standings[i].maxPossible = 1000;
+        standings[i].style = 'The GOAT. Unquestioned.';
+        standings[i].award = '\uD83D\uDC51 Supreme Champion of Everything';
+      } else {
+        standings[i].score = -standings[i].score;
+        standings[i].maxPossible = -standings[i].maxPossible;
+      }
+    }
   }
 
   standings.sort(function(a, b) {
@@ -1233,7 +1066,7 @@ function render(tournament, results, allPicks) {
   html += '<span><span class="dot dot-red"></span> Champ eliminated</span>';
   html += '</div>';
 
-  html += renderWhatIfControls();
+  html += renderSimSlider();
 
   /* ---- MOBILE CARDS ---- */
   html += '<div class="cards">';
@@ -1395,6 +1228,7 @@ function render(tournament, results, allPicks) {
   }
   html += '<div class="updated">Last updated: ' + results.last_updated + ' | Source: ' + results.source + '</div>';
   document.getElementById('output').innerHTML = html;
+  renderSimOverlay();
 }
 
 function run() {
