@@ -1,6 +1,6 @@
 {
-  "computed_at_game_count": 62,
-  "total_scenarios": 2,
+  "computed_at_game_count": 63,
+  "total_scenarios": 1,
   "has_kenpom": true,
   "participants": [
     {
@@ -8,17 +8,17 @@
       "pid": "brady",
       "current_score": 79,
       "win_pct": 0.0,
-      "place_pct": 50.0,
+      "place_pct": 0.0,
       "win_pct_kp": 0.0,
-      "place_pct_kp": 26.9,
-      "expected_winnings": 3.36,
+      "place_pct_kp": 0.0,
+      "expected_winnings": 0.0,
       "money_path": null,
       "sobs_pct": 100.0
     },
     {
       "name": "Gracie",
       "pid": "gracie",
-      "current_score": 63,
+      "current_score": 76,
       "win_pct": 0.0,
       "place_pct": 0.0,
       "win_pct_kp": 0.0,
@@ -30,13 +30,13 @@
     {
       "name": "Kristy",
       "pid": "kristy",
-      "current_score": 79,
-      "win_pct": 50.0,
+      "current_score": 92,
+      "win_pct": 100.0,
       "place_pct": 100.0,
-      "win_pct_kp": 73.1,
+      "win_pct_kp": 100.0,
       "place_pct_kp": 100.0,
-      "expected_winnings": 58.2,
-      "money_path": "Michigan wins Championship",
+      "expected_winnings": 75.0,
+      "money_path": null,
       "sobs_pct": 100.0
     },
     {
@@ -78,7 +78,7 @@
     {
       "name": "Lisa",
       "pid": "lisa",
-      "current_score": 67,
+      "current_score": 80,
       "win_pct": 0.0,
       "place_pct": 0.0,
       "win_pct_kp": 0.0,
@@ -97,24 +97,24 @@
       "place_pct_kp": 0.0,
       "expected_winnings": 0.0,
       "money_path": null,
-      "sobs_pct": 26.9
+      "sobs_pct": 0.0
     },
     {
       "name": "Peggy",
       "pid": "peggy",
       "current_score": 84,
-      "win_pct": 50.0,
+      "win_pct": 0.0,
       "place_pct": 100.0,
-      "win_pct_kp": 26.9,
+      "win_pct_kp": 0.0,
       "place_pct_kp": 100.0,
-      "expected_winnings": 38.44,
+      "expected_winnings": 25.0,
       "money_path": null,
       "sobs_pct": 100.0
     },
     {
       "name": "Sammy",
       "pid": "sammy",
-      "current_score": 61,
+      "current_score": 74,
       "win_pct": 0.0,
       "place_pct": 0.0,
       "win_pct_kp": 0.0,
