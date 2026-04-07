@@ -330,6 +330,49 @@ tr.rank1 td { font-weight: bold; }
 .ff-label { color: #888; font-size: 0.8em; }
 
 /* ---- WHAT IF MODE ---- */
+.winner-banner {
+  max-width: 1100px;
+  margin: 0 auto 16px;
+  padding: 20px 16px;
+  background: linear-gradient(135deg, #1a3a1a, #2a5a2a, #1a3a1a);
+  border: 2px solid #4ecca3;
+  border-radius: 12px;
+  text-align: center;
+}
+.winner-banner .wb-trophy { font-size: 2.5em; margin-bottom: 4px; }
+.winner-banner .wb-title {
+  font-size: 1.5em;
+  font-weight: 900;
+  background: linear-gradient(90deg, #f7c948, #ff6b35);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 4px;
+}
+.winner-banner .wb-second {
+  font-size: 0.95em;
+  color: #c0c0c0;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+.winner-banner .wb-thanks {
+  font-size: 0.85em;
+  color: #4ecca3;
+  font-style: italic;
+  margin-top: 8px;
+}
+.card.winner-card {
+  border: 2px solid #f7c948;
+  background: linear-gradient(135deg, #1a3a1a, #16213e);
+  box-shadow: 0 0 12px rgba(247, 201, 72, 0.3);
+}
+.card.second-card {
+  border: 2px solid #c0c0c0;
+  background: linear-gradient(135deg, #1a2a3a, #16213e);
+  box-shadow: 0 0 8px rgba(192, 192, 192, 0.2);
+}
+tr.winner-row { background: rgba(247, 201, 72, 0.08); }
+tr.second-row { background: rgba(192, 192, 192, 0.06); }
 .sim-slider {
   max-width: 1100px;
   margin: 0 auto 16px;
@@ -1066,13 +1109,26 @@ function render(tournament, results, allPicks) {
   html += '<span><span class="dot dot-red"></span> Champ eliminated</span>';
   html += '</div>';
 
+  /* Winner banner if tournament is complete */
+  if (finalCount === 63 && _simMode === 'real') {
+    html += '<div class="winner-banner">';
+    html += '<div class="wb-trophy">\uD83C\uDFC6</div>';
+    html += '<div class="wb-title">Kristy Wins!</div>';
+    html += '<div class="wb-second">\uD83E\uDD48 Peggy takes a strong 2nd place</div>';
+    html += '<div class="wb-thanks">Thank you all for playing!!! See you next year!</div>';
+    html += '</div>';
+  }
+
   html += renderSimSlider();
 
   /* ---- MOBILE CARDS ---- */
   html += '<div class="cards">';
   for (i = 0; i < standings.length; i++) {
     var st = standings[i];
-    var cardCls = i === 0 ? 'card rank1' : 'card';
+    var cardCls = 'card';
+    if (i === 0) cardCls += ' rank1';
+    if (finalCount === 63 && _simMode === 'real' && i === 0) cardCls += ' winner-card';
+    if (finalCount === 63 && _simMode === 'real' && i === 1) cardCls += ' second-card';
     html += '<div class="' + cardCls + '" onclick="showDetail(' + st.idx + ')">';
 
     html += '<div class="card-top">';
@@ -1173,8 +1229,11 @@ function render(tournament, results, allPicks) {
 
   for (i = 0; i < standings.length; i++) {
     var st2 = standings[i];
-    var rankClass = i === 0 ? ' class="rank1"' : '';
-    html += '<tr' + rankClass + '>';
+    var trCls = '';
+    if (i === 0) trCls = 'rank1';
+    if (finalCount === 63 && _simMode === 'real' && i === 0) trCls += ' winner-row';
+    if (finalCount === 63 && _simMode === 'real' && i === 1) trCls += ' second-row';
+    html += '<tr' + (trCls ? ' class="' + trCls.trim() + '"' : '') + '>';
     html += '<td class="rank-cell">' + (i + 1) + '</td>';
     html += '<td class="name-cell" onclick="showDetail(' + st2.idx + ')">' + st2.name + '</td>';
     html += '<td class="score">' + st2.score + '</td>';
